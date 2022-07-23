@@ -2,6 +2,7 @@ package com.quarantinefriends.dao;
 
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.entity.User;
+import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -94,5 +95,43 @@ public class UserDao {
     public UserDTO findById(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         return user.map(UserDao::mapToDTO).orElse(null);
+    }
+
+    public void addFriend(Long fromUser, Long toUser) throws UserNotFoundException {
+        User friendOne = userRepository.findById(fromUser).orElse(null);
+        User friendTwo = userRepository.findById(toUser).orElse(null);
+
+        if (friendOne == null || friendTwo == null) {
+            throw new UserNotFoundException();
+        }
+        friendOne.getFriends().add(friendTwo);
+        friendTwo.getFriends().add(friendOne);
+        userRepository.save(friendOne);
+        userRepository.save(friendTwo);
+    }
+
+    public void removeFriend(Long friendId, UserDTO userDTO) throws UserNotFoundException {
+
+        User friendOne = userRepository.findById(friendId).orElse(null);
+        User friendTwo = userRepository.findById(userDTO.getId()).orElse(null);
+        if(friendOne == null || friendTwo == null) {
+            throw new UserNotFoundException();
+        }
+
+        friendOne.getFriends().remove(friendTwo);
+        friendTwo.getFriends().remove(friendOne);
+        userRepository.save(friendOne);
+        userRepository.save(friendTwo);
+    }
+
+    public List<UserDTO> getFriendsByUserId(Long userId) throws UserNotFoundException {
+
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
+
+        List<User> friends = user.getFriends();
+        return friends.stream().map(UserDao::mapToDTO).collect(Collectors.toList());
     }
 }
