@@ -1,6 +1,9 @@
 package com.quarantinefriends.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,13 +13,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
-
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
     @Column(name="first_name")
@@ -45,20 +47,26 @@ public class User {
     @ManyToOne
     private Role role;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "user_hobby",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "hobby_id"))
     private List<Hobby> hobbies;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "user_preference",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "preference_id"))
     private List<Preference> preferences;
 
-    @JoinTable(name = "friendshipsss", joinColumns = {
-            @JoinColumn(name = "friend_one", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
-            @JoinColumn(name = "friend_two", referencedColumnName = "id", nullable = false)})
     @ManyToMany
-    private List<User>friendOne;
-
-    @ManyToMany(mappedBy = "friendOne")
-    private List<User> friendTwo;
+    @JoinTable(
+            name = "friendshipsss",
+            joinColumns = @JoinColumn(name = "friend_one_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_two_id"))
+    private List<User> friends;
 
     @Column(name="account_terminated")
     private boolean accountTerminated;

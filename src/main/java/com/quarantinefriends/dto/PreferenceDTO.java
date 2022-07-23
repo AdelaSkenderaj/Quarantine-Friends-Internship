@@ -1,24 +1,15 @@
-package com.quarantinefriends.entity;
+package com.quarantinefriends.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
-
-@Entity
-@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class Hobby {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PreferenceDTO {
     private Long id;
-
-    @Column(name="name")
     private String name;
 }
