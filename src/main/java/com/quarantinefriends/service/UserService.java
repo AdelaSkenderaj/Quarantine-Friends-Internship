@@ -6,8 +6,10 @@ import com.quarantinefriends.dao.UserDao;
 import com.quarantinefriends.dto.RoleDTO;
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.exception.EmailExistException;
+import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.exception.UsernameExistException;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,7 @@ public class UserService {
         newUser.setUsername(user.getUsername());
         newUser.setAge(user.getAge());
         newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
         //String encodedPassword = encodePassword(user.getPassword());
         //newUser.setPassword(encodedPassword);
         //newUser.setPhoto("./assets/images/anonymous.png");
@@ -83,5 +86,31 @@ public class UserService {
 
     public UserDTO getUser(Long userId) {
         return this.userDao.findById(userId);
+    }
+
+    public void resetPassword(Long userId, String password) throws UserNotFoundException {
+        UserDTO userDTO = userDao.findById(userId);
+        if(userDTO == null) {
+            throw new UserNotFoundException("User does not exist");
+        }
+
+        userDTO.setPassword(password);
+        userDao.save(userDTO);
+    }
+
+    public void forgetPassword(Long userId) throws UserNotFoundException {
+        UserDTO userDTO = userDao.findById(userId);
+        if(userDTO == null) {
+            throw new UserNotFoundException("User does not exist");
+        }
+
+        //Generate new random password and send the user an email with this password
+        String newPassword = RandomStringUtils.randomAlphanumeric(15);
+        System.out.println("New password is " + newPassword);
+        userDTO.setPassword(newPassword);
+
+        //TODO:Send new password in email
+
+        userDao.save(userDTO);
     }
 }

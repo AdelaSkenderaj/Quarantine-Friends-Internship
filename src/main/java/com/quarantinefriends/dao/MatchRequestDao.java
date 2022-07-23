@@ -2,10 +2,19 @@ package com.quarantinefriends.dao;
 
 import com.quarantinefriends.dto.MatchRequestDTO;
 import com.quarantinefriends.entity.MatchRequest;
+import com.quarantinefriends.repository.MatchRequestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MatchRequestDao {
+
+    private final MatchRequestRepository matchRequestRepository;
+
+    @Autowired
+    public MatchRequestDao(MatchRequestRepository matchRequestRepository) {
+        this.matchRequestRepository = matchRequestRepository;
+    }
 
     public static MatchRequestDTO mapToDTO(MatchRequest matchRequest) {
         MatchRequestDTO matchRequestDTO = new MatchRequestDTO();
@@ -25,5 +34,9 @@ public class MatchRequestDao {
             matchRequest.setToUser(UserDao.mapToEntity(matchRequestDTO.getToUser()));
         }
         return  matchRequest;
+    }
+
+    public void save(MatchRequestDTO matchRequestDTO) {
+        matchRequestRepository.save(mapToEntity(matchRequestDTO));
     }
 }
