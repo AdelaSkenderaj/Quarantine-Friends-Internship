@@ -50,4 +50,14 @@ public class UserController {
     public void forgetPassword(@PathVariable Long userId) throws UserNotFoundException {
         userService.forgetPassword(userId);
     }
+
+    @PutMapping("/unmatch/{friendId}")
+    public void removeMatch(@PathVariable Long friendId, @RequestBody UserDTO userDTO) throws UserNotFoundException {
+        userService.removeMatch(friendId, userDTO);
+    }
+
+    @GetMapping("/user/{userId}/friends")
+    public List<UserDTO> getFriendsByUserId(@PathVariable Long userId) throws UserNotFoundException {
+        return userService.getFriendsByUserId(userId);
+    }
 }

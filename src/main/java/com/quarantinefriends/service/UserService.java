@@ -91,7 +91,7 @@ public class UserService {
     public void resetPassword(Long userId, String password) throws UserNotFoundException {
         UserDTO userDTO = userDao.findById(userId);
         if(userDTO == null) {
-            throw new UserNotFoundException("User does not exist");
+            throw new UserNotFoundException();
         }
 
         userDTO.setPassword(password);
@@ -101,7 +101,7 @@ public class UserService {
     public void forgetPassword(Long userId) throws UserNotFoundException {
         UserDTO userDTO = userDao.findById(userId);
         if(userDTO == null) {
-            throw new UserNotFoundException("User does not exist");
+            throw new UserNotFoundException();
         }
 
         //Generate new random password and send the user an email with this password
@@ -112,5 +112,13 @@ public class UserService {
         //TODO:Send new password in email
 
         userDao.save(userDTO);
+    }
+
+    public void removeMatch(Long friendId, UserDTO userDTO) throws UserNotFoundException {
+        userDao.removeFriend(friendId, userDTO);
+    }
+
+    public List<UserDTO> getFriendsByUserId(Long userId) throws UserNotFoundException {
+        return userDao.getFriendsByUserId(userId);
     }
 }

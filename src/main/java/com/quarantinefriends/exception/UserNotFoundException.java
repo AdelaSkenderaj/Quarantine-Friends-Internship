@@ -2,7 +2,9 @@ package com.quarantinefriends.exception;
 
 public class UserNotFoundException extends Exception{
 
-    public UserNotFoundException(String message) {
+    private static final String message = "User does not exist";
+
+    public UserNotFoundException() {
         super(message);
     }
 }
