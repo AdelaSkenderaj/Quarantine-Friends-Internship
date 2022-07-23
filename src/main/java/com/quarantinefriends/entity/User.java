@@ -63,10 +63,17 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "friendshipsss",
+            name = "friendshipssss",
             joinColumns = @JoinColumn(name = "friend_one_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_two_id"))
     private List<User> friends;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_block",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "blocked_user_id"))
+    private List<User> blockedUsers;
 
     @Column(name="account_terminated")
     private boolean accountTerminated;

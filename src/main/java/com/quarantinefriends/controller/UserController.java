@@ -60,4 +60,20 @@ public class UserController {
     public List<UserDTO> getFriendsByUserId(@PathVariable Long userId) throws UserNotFoundException {
         return userService.getFriendsByUserId(userId);
     }
+
+    @PutMapping("/user/{userId}/block/{blockUserId}")
+    public void blockUser(@PathVariable Long userId, @PathVariable Long blockUserId) throws UserNotFoundException {
+        userService.blockUser(userId, blockUserId);
+    }
+
+    @GetMapping("/user/{userId}/blocked-users")
+    public List<UserDTO> getBlockedUsersByUserId(@PathVariable Long userId) {
+        return userService.getBlockedUsersByUserId(userId);
+    }
+
+    @PutMapping("/user/{userId}/unblock/{blockedUserId}")
+    public void unblockUser(@PathVariable Long userId, @PathVariable Long blockedUserId) throws UserNotFoundException {
+        userService.unblockUser(userId, blockedUserId);
+    }
+
 }
