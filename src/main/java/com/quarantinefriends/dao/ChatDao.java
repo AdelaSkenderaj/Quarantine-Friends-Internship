@@ -11,7 +11,6 @@ public class ChatDao {
         ChatDTO chatDTO = new ChatDTO();
         if(chat != null) {
             chatDTO.setId(chat.getId());
-            chatDTO.setFriendship(FriendshipDao.mapToDTO(chat.getFriendship()));
         }
         return chatDTO;
     }
@@ -20,7 +19,6 @@ public class ChatDao {
         Chat chat = new Chat();
         if(chatDTO != null) {
             chat.setId(chatDTO.getId());
-            chat.setFriendship(FriendshipDao.mapToEntity(chatDTO.getFriendship()));
         }
         return chat;
     }

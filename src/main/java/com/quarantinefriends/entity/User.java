@@ -63,7 +63,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "friendshipssss",
+            name = "friendships",
             joinColumns = @JoinColumn(name = "friend_one_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_two_id"))
     private List<User> friends;

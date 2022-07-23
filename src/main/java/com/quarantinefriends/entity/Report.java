@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -20,11 +21,8 @@ public class Report {
     private Long id;
 
     @ManyToOne
-    private User fromUser;
-
-    @ManyToOne
-    private User toUser;
+    private User user;
 
     @Column(name="date")
-    private Date date;
+    private LocalDateTime date;
 }
