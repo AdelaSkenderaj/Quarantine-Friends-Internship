@@ -115,10 +115,23 @@ public class UserService {
     }
 
     public void removeMatch(Long friendId, UserDTO userDTO) throws UserNotFoundException {
-        userDao.removeFriend(friendId, userDTO);
+        userDao.removeFriend(friendId, userDTO.getId());
     }
 
     public List<UserDTO> getFriendsByUserId(Long userId) throws UserNotFoundException {
         return userDao.getFriendsByUserId(userId);
+    }
+
+    public void blockUser(Long userId, Long blockUserId) throws UserNotFoundException {
+        //TODO:if the user was a friend remove from friends list
+        userDao.blockUser(userId, blockUserId);
+    }
+
+    public List<UserDTO> getBlockedUsersByUserId(Long userId) {
+        return userDao.getBlockedUsersByUserId(userId);
+    }
+
+    public void unblockUser(Long userId, Long blockedUserId) throws UserNotFoundException {
+        userDao.unblockUser(userId, blockedUserId);
     }
 }

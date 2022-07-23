@@ -4,6 +4,7 @@ import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.entity.User;
 import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.repository.UserRepository;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -97,6 +98,8 @@ public class UserDao {
         return user.map(UserDao::mapToDTO).orElse(null);
     }
 
+    //TODO: Place methods in service
+
     public void addFriend(Long fromUser, Long toUser) throws UserNotFoundException {
         User friendOne = userRepository.findById(fromUser).orElse(null);
         User friendTwo = userRepository.findById(toUser).orElse(null);
@@ -110,10 +113,10 @@ public class UserDao {
         userRepository.save(friendTwo);
     }
 
-    public void removeFriend(Long friendId, UserDTO userDTO) throws UserNotFoundException {
+    public void removeFriend(Long friendId, Long userId) throws UserNotFoundException {
 
         User friendOne = userRepository.findById(friendId).orElse(null);
-        User friendTwo = userRepository.findById(userDTO.getId()).orElse(null);
+        User friendTwo = userRepository.findById(userId).orElse(null);
         if(friendOne == null || friendTwo == null) {
             throw new UserNotFoundException();
         }
@@ -133,5 +136,42 @@ public class UserDao {
 
         List<User> friends = user.getFriends();
         return friends.stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+    }
+
+    public void blockUser(Long userId, Long blockUserId) throws UserNotFoundException {
+
+        User user = userRepository.findById(userId).orElse(null);
+        User blockedUser = userRepository.findById(blockUserId).orElse(null);
+
+        if(user == null || blockedUser == null) {
+            throw new UserNotFoundException();
+        }
+
+        if(user.getFriends().contains(blockedUser)) {
+            removeFriend(userId, blockUserId);
+        }
+        user.getBlockedUsers().add(blockedUser);
+        userRepository.save(user);
+    }
+
+    public List<UserDTO> getBlockedUsersByUserId(Long userId) {
+
+        User user = userRepository.findById(userId).orElse(null);
+        if(user != null) {
+            return user.getBlockedUsers().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    public void unblockUser(Long userId, Long blockedUserId) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        User blockedUser = userRepository.findById(blockedUserId).orElse(null);
+
+        if(user == null || blockedUser == null) {
+            throw new UserNotFoundException();
+        }
+
+        user.getBlockedUsers().remove(blockedUser);
+        userRepository.save(user);
     }
 }
