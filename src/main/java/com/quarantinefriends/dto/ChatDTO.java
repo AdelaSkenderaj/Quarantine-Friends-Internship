@@ -11,5 +11,4 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ChatDTO {
     private Long id;
-    private FriendshipDTO friendship;
 }

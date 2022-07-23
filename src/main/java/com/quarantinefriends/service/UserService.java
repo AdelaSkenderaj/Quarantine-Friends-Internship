@@ -84,7 +84,7 @@ public class UserService {
         return this.userDao.findAll();
     }
 
-    public UserDTO getUser(Long userId) {
+    public UserDTO getUser(Long userId) throws UserNotFoundException {
         return this.userDao.findById(userId);
     }
 
@@ -133,5 +133,10 @@ public class UserService {
 
     public void unblockUser(Long userId, Long blockedUserId) throws UserNotFoundException {
         userDao.unblockUser(userId, blockedUserId);
+    }
+
+    public void terminateAccount(Long userId) throws UserNotFoundException {
+        UserDTO user = userDao.findById(userId);
+
     }
 }

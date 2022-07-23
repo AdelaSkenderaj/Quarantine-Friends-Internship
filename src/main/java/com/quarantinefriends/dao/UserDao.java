@@ -93,9 +93,12 @@ public class UserDao {
         return userRepository.findAll().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
     }
 
-    public UserDTO findById(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        return user.map(UserDao::mapToDTO).orElse(null);
+    public UserDTO findById(Long userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
+        return UserDao.mapToDTO(user);
     }
 
     //TODO: Place methods in service

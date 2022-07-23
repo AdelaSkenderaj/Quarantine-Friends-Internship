@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Long userId){
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) throws UserNotFoundException {
         UserDTO user = this.userService.getUser(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -74,6 +74,11 @@ public class UserController {
     @PutMapping("/user/{userId}/unblock/{blockedUserId}")
     public void unblockUser(@PathVariable Long userId, @PathVariable Long blockedUserId) throws UserNotFoundException {
         userService.unblockUser(userId, blockedUserId);
+    }
+
+    @PutMapping("/terminate/{userId}")
+    public void terminateAccount(@PathVariable Long userId) throws UserNotFoundException {
+        userService.terminateAccount(userId);
     }
 
 }
