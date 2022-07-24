@@ -1,5 +1,7 @@
 package com.quarantinefriends.controller;
 
+import com.quarantinefriends.dto.LoginDTO;
+import com.quarantinefriends.dto.LoginResponse;
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.exception.EmailExistException;
 import com.quarantinefriends.exception.ExceptionHandling;
@@ -30,6 +32,11 @@ public class UserController extends ExceptionHandling {
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO){
+        return this.userService.login(loginDTO);
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getUsers(){
         List<UserDTO> users = this.userService.getUsers();
@@ -47,9 +54,9 @@ public class UserController extends ExceptionHandling {
         userService.resetPassword(userId, password);
     }
 
-    @PutMapping("/forget-password/{userId}")
-    public void forgetPassword(@PathVariable Long userId) throws UserNotFoundException {
-        userService.forgetPassword(userId);
+    @PutMapping("/forget-password")
+    public void forgetPassword(@RequestBody String email) throws UserNotFoundException {
+        userService.forgetPassword(email);
     }
 
     @PutMapping("/unmatch/{friendId}")
