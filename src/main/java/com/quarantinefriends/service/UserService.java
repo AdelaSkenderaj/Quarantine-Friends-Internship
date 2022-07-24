@@ -18,7 +18,6 @@ import java.util.List;
 
 
 @Service
-@ComponentScan(basePackages = "com.quarantinefriends")
 @NoArgsConstructor
 public class UserService {
 
@@ -90,9 +89,6 @@ public class UserService {
 
     public void resetPassword(Long userId, String password) throws UserNotFoundException {
         UserDTO userDTO = userDao.findById(userId);
-        if(userDTO == null) {
-            throw new UserNotFoundException();
-        }
 
         userDTO.setPassword(password);
         userDao.save(userDTO);
@@ -100,9 +96,6 @@ public class UserService {
 
     public void forgetPassword(Long userId) throws UserNotFoundException {
         UserDTO userDTO = userDao.findById(userId);
-        if(userDTO == null) {
-            throw new UserNotFoundException();
-        }
 
         //Generate new random password and send the user an email with this password
         String newPassword = RandomStringUtils.randomAlphanumeric(15);
@@ -137,6 +130,7 @@ public class UserService {
 
     public void terminateAccount(Long userId) throws UserNotFoundException {
         UserDTO user = userDao.findById(userId);
-
+        user.setAccountTerminated(true);
+        userDao.save(user);
     }
 }

@@ -2,6 +2,7 @@ package com.quarantinefriends.controller;
 
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.exception.EmailExistException;
+import com.quarantinefriends.exception.ExceptionHandling;
 import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.exception.UsernameExistException;
 import com.quarantinefriends.service.UserService;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/")
-public class UserController {
+public class UserController extends ExceptionHandling {
 
     private UserService userService;
 
