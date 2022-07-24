@@ -1,7 +1,10 @@
 package com.quarantinefriends.controller;
 
+import com.quarantinefriends.dto.LoginDTO;
+import com.quarantinefriends.dto.LoginResponse;
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.exception.EmailExistException;
+import com.quarantinefriends.exception.ExceptionHandling;
 import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.exception.UsernameExistException;
 import com.quarantinefriends.service.UserService;
@@ -14,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/")
-public class UserController {
+public class UserController extends ExceptionHandling {
 
     private UserService userService;
 
@@ -27,6 +30,11 @@ public class UserController {
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO user) throws EmailExistException, UsernameExistException {
         UserDTO newUser = userService.register(user);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO){
+        return this.userService.login(loginDTO);
     }
 
     @GetMapping("/users")
@@ -46,9 +54,9 @@ public class UserController {
         userService.resetPassword(userId, password);
     }
 
-    @PutMapping("/forget-password/{userId}")
-    public void forgetPassword(@PathVariable Long userId) throws UserNotFoundException {
-        userService.forgetPassword(userId);
+    @PutMapping("/forget-password")
+    public void forgetPassword(@RequestBody String email) throws UserNotFoundException {
+        userService.forgetPassword(email);
     }
 
     @PutMapping("/unmatch/{friendId}")

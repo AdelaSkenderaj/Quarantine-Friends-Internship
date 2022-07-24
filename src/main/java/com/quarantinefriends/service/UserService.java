@@ -1,37 +1,56 @@
 package com.quarantinefriends.service;
 
 
+import com.quarantinefriends.configuration.JwtUtils;
 import com.quarantinefriends.dao.RoleDao;
 import com.quarantinefriends.dao.UserDao;
+import com.quarantinefriends.dto.LoginDTO;
+import com.quarantinefriends.dto.LoginResponse;
 import com.quarantinefriends.dto.RoleDTO;
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.exception.EmailExistException;
 import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.exception.UsernameExistException;
+import com.quarantinefriends.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-@ComponentScan(basePackages = "com.quarantinefriends")
 @NoArgsConstructor
 public class UserService {
 
-    //private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     private UserDao userDao;
     private RoleDao roleDao;
 
+    private AuthenticationManager authenticationManager;
+
+    private JwtUtils jwtUtils;
+    private UserRepository userRepository;
+
 
     @Autowired
-    public UserService(UserDao userDao, RoleDao roleDao) {
+    public UserService(UserDao userDao, RoleDao roleDao, PasswordEncoder passwordEncoder,
+                       AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository) {
         this.userDao = userDao;
         this.roleDao = roleDao;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+        this.userRepository = userRepository;
     }
 
 
@@ -52,9 +71,8 @@ public class UserService {
         newUser.setUsername(user.getUsername());
         newUser.setAge(user.getAge());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
-        //String encodedPassword = encodePassword(user.getPassword());
-        //newUser.setPassword(encodedPassword);
+        String encodedPassword = encodePassword(user.getPassword());
+        newUser.setPassword(encodedPassword);
         //newUser.setPhoto("./assets/images/anonymous.png");
         newUser.setRole(role);
         newUser.setHobbies(user.getHobbies());
@@ -65,9 +83,25 @@ public class UserService {
         return newUser;
     }
 
-    /*private String encodePassword(String password){
+
+    public ResponseEntity<LoginResponse> login(LoginDTO loginDTO) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        UserDTO user = userDao.findByUsername(loginDTO.getUsername());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("jwtToken", jwt);
+        LoginResponse loginResponse = new LoginResponse(user, jwt);
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(loginResponse);
+    }
+
+
+    private String encodePassword(String password){
         return passwordEncoder.encode(password);
-    }*/
+    }
 
     private void validateUsernameAndEmail(String username, String email) throws UsernameExistException, EmailExistException {
         if(userDao.findByUsername(username) != null) {
@@ -90,24 +124,18 @@ public class UserService {
 
     public void resetPassword(Long userId, String password) throws UserNotFoundException {
         UserDTO userDTO = userDao.findById(userId);
-        if(userDTO == null) {
-            throw new UserNotFoundException();
-        }
-
-        userDTO.setPassword(password);
+        userDTO.setPassword(encodePassword(password));
         userDao.save(userDTO);
     }
 
-    public void forgetPassword(Long userId) throws UserNotFoundException {
-        UserDTO userDTO = userDao.findById(userId);
-        if(userDTO == null) {
-            throw new UserNotFoundException();
-        }
+    public void forgetPassword(String email) throws UserNotFoundException {
+        UserDTO userDTO = userDao.findByEmail(email);
 
         //Generate new random password and send the user an email with this password
         String newPassword = RandomStringUtils.randomAlphanumeric(15);
+        String encodedPassword = encodePassword(newPassword);
         System.out.println("New password is " + newPassword);
-        userDTO.setPassword(newPassword);
+        userDTO.setPassword(encodedPassword);
 
         //TODO:Send new password in email
 
@@ -137,6 +165,9 @@ public class UserService {
 
     public void terminateAccount(Long userId) throws UserNotFoundException {
         UserDTO user = userDao.findById(userId);
-
+        user.setAccountTerminated(true);
+        userDao.save(user);
     }
+
+
 }
