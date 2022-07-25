@@ -22,6 +22,9 @@ export class MenuComponent implements OnInit {
       this.userLoggedIn = response;
     })
     console.log(this.userLoggedIn);
+    if(!this.userLoggedIn) {
+      this.router.navigate(['/login']);
+    }
     
   }
 

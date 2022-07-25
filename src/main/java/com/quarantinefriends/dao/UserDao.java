@@ -179,4 +179,34 @@ public class UserDao {
         user.getBlockedUsers().remove(blockedUser);
         userRepository.save(user);
     }
+
+    public List<UserDTO> getAvailableUsersForMatch(Long userId) {
+        List<UserDTO> availableUsers = userRepository.findEnabledUsers().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+
+        User currentUser = userRepository.findById(userId).orElse(null);
+        if(!availableUsers.isEmpty() && currentUser != null) {
+            List<UserDTO> friends = currentUser.getFriends().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+            List<UserDTO> blockedUsers = currentUser.getBlockedUsers().stream().map(UserDao :: mapToDTO).collect(Collectors.toList());
+
+            for(UserDTO friend : friends) {
+                if(availableUsers.contains(friend)) {
+                    System.out.println("removing friend");
+                    availableUsers.remove(friend);
+                }
+            }
+
+            for(UserDTO blocked : blockedUsers) {
+                if(availableUsers.contains(blocked)) {
+                    System.out.println("removing blocked user");
+                    availableUsers.remove(blocked);
+                }
+            }
+            availableUsers.remove(mapToDTO(currentUser));
+            System.out.println(availableUsers);
+            return availableUsers;
+        }
+        return null;
+    }
+
+
 }
