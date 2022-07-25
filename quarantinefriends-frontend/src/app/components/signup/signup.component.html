@@ -1,0 +1,100 @@
+
+<div class="container modal-container">
+  <h3 class="title">Register</h3>
+
+  <div [formGroup]="form">
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          formControlName="firstname"
+          placeholder="First Name"
+        />
+      </mat-form-field>
+      <br />
+
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          formControlName="lastname"
+          placeholder="Last Name"
+        />
+      </mat-form-field>
+      <br />
+
+        
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          formControlName="username"
+          placeholder="Username"
+        />
+      </mat-form-field>
+      <br />
+
+        
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            formControlName="age"
+            placeholder="Age"
+          />
+        </mat-form-field>
+        <br />
+
+            
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              formControlName="email"
+              placeholder="Email"
+            />
+          </mat-form-field>
+          <br />
+
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              formControlName="password"
+              placeholder="Password"
+            />
+          </mat-form-field>
+          <br />
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Hobbies"
+          multiple
+          formControlName="hobbies"
+        >
+          <mat-option
+            class="option"
+            *ngFor="let hobby of allHobbies"
+            value="{{ hobby.id }}"
+            >{{ hobby.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Preferences"
+          multiple
+          formControlName="preferences"
+        >
+          <mat-option
+            class="option"
+            *ngFor="let preference of allPreferences"
+            value="{{ preference.id }}"
+            >{{ preference.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <button class="submit-button" mat-stroked-button (click)="onSubmit()"> Submit </button>
+  </div>
+</div>

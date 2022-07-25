@@ -2,10 +2,22 @@ package com.quarantinefriends.dao;
 
 import com.quarantinefriends.dto.PreferenceDTO;
 import com.quarantinefriends.entity.Preference;
+import com.quarantinefriends.repository.PreferenceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PreferenceDao {
+
+    private PreferenceRepository preferenceRepository;
+
+    @Autowired
+    public PreferenceDao(PreferenceRepository preferenceRepository) {
+        this.preferenceRepository = preferenceRepository;
+    }
 
     public static PreferenceDTO mapToDTO(Preference preference) {
         PreferenceDTO preferenceDTO = new PreferenceDTO();
@@ -23,5 +35,9 @@ public class PreferenceDao {
             preference.setName(preferenceDTO.getName());
         }
         return preference;
+    }
+
+    public List<PreferenceDTO> findAll() {
+        return preferenceRepository.findAll().stream().map(PreferenceDao::mapToDTO).collect(Collectors.toList());
     }
 }
