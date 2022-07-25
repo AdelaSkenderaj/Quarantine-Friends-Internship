@@ -1,0 +1,64 @@
+<mat-sidenav-container fullscreen>
+  <mat-toolbar *ngIf="userLoggedIn">
+  
+    <a mat-button class="mat-button" > Quapp </a>
+    <a mat-button *ngIf="userLoggedIn" routerLink="/homepage" class="mat-button"
+      ><mat-icon>home</mat-icon>
+    </a>
+
+    <a
+      mat-button
+      *ngIf="userLoggedIn"
+      (click)="onClickProfile()"
+      class="mat-button"
+      ><mat-icon>person_outline</mat-icon>Profile
+    </a>
+    <a
+      mat-button
+      routerLink="/users"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_ADMIN'"
+      class="mat-button"
+    >
+      <mat-icon>supervisor_account</mat-icon>Users
+    </a>
+    <a
+      mat-button
+      routerLink="/teams"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_ADMIN'"
+      class="mat-button"
+    >
+      <i class="fa fa-users" aria-hidden="true"></i>
+      Teams
+    </a>
+
+    <span class="example-spacer"></span>
+    <a
+      mat-button
+      routerLink="/notifications"
+      *ngIf="userLoggedIn"
+      class="mat-button"
+    >
+      <mat-icon
+        matBadge=""
+        matBadgeColor="warn"
+        [matBadgeHidden]=""
+        >notifications</mat-icon
+      >
+    </a>
+    <a
+      mat-button
+      class="mat-button"
+      *ngIf="userLoggedIn"
+      (click)="logout()"
+      routerLink="/"
+      ><mat-icon>exit_to_app</mat-icon>Logout
+    </a>
+    <a *ngIf="userLoggedIn" routerLink="/"
+      ><img src="{{userLoggedIn.photo}}" class="rounded-circle menu-img" />
+    </a>
+  </mat-toolbar>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer *ngIf="userLoggedIn"></app-footer>
+</mat-sidenav-container>

@@ -1,0 +1,48 @@
+<div class="container">
+  <!-- <img src="../../assets/images/wallhaven-o3ew8p.png" > -->
+    <div class="d-flex all-container justify-content-center">
+      <div class="d-flex image-container justify-content-center">
+      </div>
+      <div class="form-container-1">
+        <mat-form-field>
+          <input
+            appearance="fill"
+            type="text"
+            matInput
+            placeholder="Username"
+            [(ngModel)]="username"
+            #title
+          />
+          <mat-icon matSuffix>person_outline</mat-icon>
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            matInput
+            placeholder="Password"
+            [(ngModel)]="password"
+            #title
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon class="hide-icon">{{
+              hide ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <button class="login-button" mat-stroked-button (click)="handleLogin()">
+          Login
+        </button>
+        <button class="login-button" mat-stroked-button routerLink="/signup">
+          SignUp
+        </button>
+      </div>
+    </div>
+  </div>
+  

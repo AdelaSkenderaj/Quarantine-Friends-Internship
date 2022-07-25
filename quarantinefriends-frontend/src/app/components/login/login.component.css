@@ -1,0 +1,48 @@
+.login-form {
+    margin-top: 20%;
+  }
+  .login-container {
+    margin-top: 0%;
+  }
+  mat-form-field {
+    width: 50%;
+    margin-right: 40%;
+    font-size: 18px;
+  }
+  button {
+    width: 30%;
+  }
+  .hide-icon {
+    transform: scale(1.4);
+  }
+  mat-icon {
+    font-size: 50px;
+    height: 20px;
+  }
+  
+  .image-container {
+    margin-bottom: -2%;
+  }
+  .logo-image {
+    width: 20%;
+  }
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+  }
+  .all-container {
+    flex-direction: column;
+  }
+  .form-container-1 {
+    margin-left: 60%;
+  }
+  .login-button {
+    width: 26%;
+    margin-right: 0.5em;
+  }
+  .container {
+    margin-top: 20em;
+  }
+  

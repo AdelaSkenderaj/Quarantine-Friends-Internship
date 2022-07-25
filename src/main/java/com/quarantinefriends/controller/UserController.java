@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/")
+@CrossOrigin("http://localhost:4200")
 public class UserController extends ExceptionHandling {
 
     private UserService userService;

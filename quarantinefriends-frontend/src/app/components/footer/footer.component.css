@@ -1,0 +1,18 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #05164d;
+    color: white;
+  }
+  p {
+    margin-top: 15px;
+    font-size: 12px;
+    margin-left: 50px;
+  }
+  .copyright {
+    font-size: 20px;
+    margin-top: 15px;
+  }
+  

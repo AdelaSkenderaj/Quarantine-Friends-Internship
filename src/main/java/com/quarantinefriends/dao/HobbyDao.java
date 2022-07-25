@@ -2,11 +2,22 @@ package com.quarantinefriends.dao;
 
 import com.quarantinefriends.dto.HobbyDTO;
 import com.quarantinefriends.entity.Hobby;
+import com.quarantinefriends.repository.HobbyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class HobbyDao {
 
+    private HobbyRepository hobbyRepository;
+
+    @Autowired
+    public HobbyDao(HobbyRepository hobbyRepository){
+        this.hobbyRepository = hobbyRepository;
+    }
 
     public static HobbyDTO mapToDTO(Hobby hobby) {
         HobbyDTO hobbyDTO = new HobbyDTO();
@@ -24,5 +35,9 @@ public class HobbyDao {
             hobby.setName(hobbyDTO.getName());
         }
         return hobby;
+    }
+
+    public List<HobbyDTO> findAll() {
+        return this.hobbyRepository.findAll().stream().map(HobbyDao::mapToDTO).collect(Collectors.toList());
     }
 }
