@@ -2,6 +2,7 @@ package com.quarantinefriends.controller;
 
 import com.quarantinefriends.dto.LoginDTO;
 import com.quarantinefriends.dto.LoginResponse;
+import com.quarantinefriends.dto.MatchDTO;
 import com.quarantinefriends.dto.UserDTO;
 import com.quarantinefriends.exception.EmailExistException;
 import com.quarantinefriends.exception.ExceptionHandling;
@@ -88,6 +89,11 @@ public class UserController extends ExceptionHandling {
     @PutMapping("/terminate/{userId}")
     public void terminateAccount(@PathVariable Long userId) throws UserNotFoundException {
         userService.terminateAccount(userId);
+    }
+
+    @GetMapping("/matches/{userId}")
+    public List<MatchDTO> getMatches(@PathVariable Long userId) throws UserNotFoundException {
+        return userService.getMatches(userId);
     }
 
 }

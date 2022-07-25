@@ -4,10 +4,7 @@ package com.quarantinefriends.service;
 import com.quarantinefriends.configuration.JwtUtils;
 import com.quarantinefriends.dao.RoleDao;
 import com.quarantinefriends.dao.UserDao;
-import com.quarantinefriends.dto.LoginDTO;
-import com.quarantinefriends.dto.LoginResponse;
-import com.quarantinefriends.dto.RoleDTO;
-import com.quarantinefriends.dto.UserDTO;
+import com.quarantinefriends.dto.*;
 import com.quarantinefriends.exception.EmailExistException;
 import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.exception.UsernameExistException;
@@ -24,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -167,6 +165,57 @@ public class UserService {
         UserDTO user = userDao.findById(userId);
         user.setAccountTerminated(true);
         userDao.save(user);
+    }
+
+
+    public List<MatchDTO> getMatches(Long userId) throws UserNotFoundException {
+        List<UserDTO> availableUsers = userDao.getAvailableUsersForMatch(userId);
+        List<MatchDTO> matches = new ArrayList<>();
+        double matchingPercentage = 0;
+
+        for(UserDTO user : availableUsers) {
+            MatchDTO match = new MatchDTO();
+            UserDTO loggedInUser = userDao.findById(userId);
+            matchingPercentage = calculateMatchingPercentage(loggedInUser, user);
+            System.out.println("matching percentage " + matchingPercentage);
+            if(matchingPercentage > 0) {
+                match.setUser(user);
+                match.setMatchingPercentage(matchingPercentage);
+                matches.add(match);
+            }
+        }
+        return matches;
+    }
+
+    private double calculateMatchingPercentage(UserDTO loggedInUser, UserDTO matchedUser) {
+        double hobbyMatch = 0;
+        double preferenceMatch = 0;
+        List<HobbyDTO> matchedUserHobbies = matchedUser.getHobbies();
+        for(HobbyDTO hobby : loggedInUser.getHobbies()) {
+            if(matchedUserHobbies.contains(hobby)) {
+                hobbyMatch += 1;
+                System.out.println("inside if case ");
+            }
+        }
+        if(!loggedInUser.getHobbies().isEmpty()) {
+            hobbyMatch /= loggedInUser.getHobbies().size();
+        }
+        System.out.println("Hobby match " + hobbyMatch);
+
+        for(PreferenceDTO preference : loggedInUser.getPreferences()) {
+            if(matchedUser.getPreferences().contains(preference)) {
+                preferenceMatch += 1;
+            }
+        }
+        if(!loggedInUser.getPreferences().isEmpty()) {
+            preferenceMatch /= loggedInUser.getPreferences().size();
+        }
+        System.out.println("preference match " + preferenceMatch);
+
+        double ageMatch = 0.2 - (double)Math.min(10, Math.abs(loggedInUser.getAge() - matchedUser.getAge()))/10;
+        System.out.println("age match " + ageMatch);
+
+        return ((hobbyMatch * 0.4) + (preferenceMatch * 0.4) + ageMatch);
     }
 
 
