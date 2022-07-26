@@ -1,0 +1,63 @@
+  
+  <mat-tab-group mat-stretch-tabs class="header">
+    <mat-tab label="Received Requests">
+      <div class="container">
+        <div class="row">
+          <div
+            class="bg-light"
+            *ngFor="let request of receivedRequests"
+            data-clickable="true"
+          >
+            <div class="content">
+                <a mat-button class="request justify-content-between" routerLink="/profile/{{request.fromUser.id}}}">
+                    <img class="img" src="{{ request.fromUser.photo }}" alt="" />  {{request.fromUser.firstName}} {{request.fromUser.lastName}}
+                </a>
+                
+                <button
+                mat-icon-button
+                class="add-icon"
+                matTooltip="Accept Match Request"
+                (click)="acceptRequest(request.id)">
+                <mat-icon>check</mat-icon>
+                </button>
+    
+                <button
+                mat-icon-button
+                color="warn"
+                matTooltip="Decline Match Request"
+                (click)="deleteRequest(request.id)" >
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </mat-tab>
+    <mat-tab label="Sent Requests">
+      <div class="container">
+        <div class="row">
+          <div
+            class="bg-light"
+            *ngFor="let sent of sentRequests"
+            data-clickable="true"
+          >
+          <div class="content">
+            <a mat-button class="request justify-content-between" routerLink="/profile/{{sent.toUser.photo}}">
+                <img class="img" src="{{ sent.toUser.photo }}" alt="" /> {{sent.toUser.firstName}} {{sent.toUser.lastName}} 
+            </a>
+            <button
+            mat-icon-button
+            color="warn"
+            matTooltip="Remove request"
+            (click)="deleteRequest(sent.id)" >
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  

@@ -2,7 +2,7 @@
   <mat-toolbar *ngIf="userLoggedIn">
   
     <a mat-button class="mat-button" > Quapp </a>
-    <a mat-button *ngIf="userLoggedIn" routerLink="/homepage" class="mat-button"
+    <a mat-button *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'" routerLink="/homepage" class="mat-button"
       ><mat-icon>home</mat-icon>
     </a>
 
@@ -77,5 +77,4 @@
   <div class="container">
     <router-outlet></router-outlet>
   </div>
-  <!-- <app-footer *ngIf="userLoggedIn"></app-footer> -->
 </mat-sidenav-container>

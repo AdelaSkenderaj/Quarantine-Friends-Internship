@@ -7,6 +7,8 @@ import { AuthenticationGuard } from './guards/authentication.guard';
 import { LoginComponent } from './components/login/login.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { RequestsComponent } from './components/requests/requests.component';
+import { BlockedUsersComponent } from './components/blocked-users/blocked-users.component';
 
 
 const routes: Routes = [
@@ -20,6 +22,12 @@ const routes: Routes = [
   {
     path: 'signup', component: SignupComponent,
   },
+  {
+    path: 'match-requests', component:RequestsComponent,
+  },
+  {
+    path: 'blocked-users', component: BlockedUsersComponent,
+  }
 ];
 
 @NgModule({

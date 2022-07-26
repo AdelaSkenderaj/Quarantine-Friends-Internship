@@ -155,8 +155,8 @@ public class UserService {
         return userDao.getBlockedUsersByUserId(userId);
     }
 
-    public void unblockUser(Long userId, Long blockedUserId) throws UserNotFoundException {
-        userDao.unblockUser(userId, blockedUserId);
+    public void unblockUser(UserDTO userDTO, Long blockedUserId) throws UserNotFoundException {
+        userDao.unblockUser(userDTO.getId(), blockedUserId);
     }
 
     public void terminateAccount(Long userId) throws UserNotFoundException {
@@ -176,10 +176,11 @@ public class UserService {
             MatchDTO match = new MatchDTO();
             UserDTO loggedInUser = userDao.findById(userId);
             matchingPercentage = calculateMatchingPercentage(loggedInUser, user);
-            System.out.println("matching percentage " + matchingPercentage);
+
             if(matchingPercentage > 0) {
                 match.setUser(user);
-                match.setMatchingPercentage(matchingPercentage);
+                match.setMatchingPercentage((int) (matchingPercentage * 100));
+                System.out.println("matching percentage " + match.getMatchingPercentage());
                 matches.add(match);
             }
         }

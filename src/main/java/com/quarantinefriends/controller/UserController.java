@@ -81,9 +81,9 @@ public class UserController extends ExceptionHandling {
         return userService.getBlockedUsersByUserId(userId);
     }
 
-    @PutMapping("/user/{userId}/unblock/{blockedUserId}")
-    public void unblockUser(@PathVariable Long userId, @PathVariable Long blockedUserId) throws UserNotFoundException {
-        userService.unblockUser(userId, blockedUserId);
+    @PutMapping("/user/unblock/{blockedUserId}")
+    public void unblockUser(@RequestBody UserDTO userDTO, @PathVariable Long blockedUserId) throws UserNotFoundException {
+        userService.unblockUser(userDTO, blockedUserId);
     }
 
     @PutMapping("/terminate/{userId}")

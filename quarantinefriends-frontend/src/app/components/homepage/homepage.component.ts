@@ -47,5 +47,4 @@ export class HomepageComponent implements OnInit {
         this.refreshSuggestions();
       });
   }
-
 }

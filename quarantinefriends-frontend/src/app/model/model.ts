@@ -56,5 +56,6 @@ export class Hobby {
 
 export class MatchSuggestion {
     public user:User;
-    public percentage:number;
+    public matchingPercentage:number;
+    constructor() {}
 }

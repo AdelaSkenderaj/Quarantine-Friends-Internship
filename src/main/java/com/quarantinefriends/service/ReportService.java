@@ -25,14 +25,11 @@ public class ReportService {
         this.userDao = userDao;
     }
 
-    public void addReport(Long userId) throws UserNotFoundException {
-        ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setDate(LocalDateTime.now());
-        reportDTO.setUser(userDao.findById(userId));
-        reportDao.save(ReportDao.mapToEntity(reportDTO));
+    public void addReport(ReportDTO reportDTO){
+        reportDao.save(reportDTO);
     }
 
     public List<ReportDTO> getAllReports() {
-        return reportDao.findAll().stream().map(ReportDao :: mapToDTO).collect(Collectors.toList());
+        return reportDao.findAll();
     }
 }

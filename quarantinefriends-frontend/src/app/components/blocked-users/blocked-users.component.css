@@ -1,0 +1,33 @@
+.notifications-table {
+    width: 100%;
+    margin-top: 10%;
+  }
+
+  .add-button {
+    background-color: white;
+    color: #05164d;
+  }
+  
+  .add-button:hover {
+    background-color: #05164d;
+    color: white;
+  }
+
+  .fa-edit {
+    color: rgb(255, 208, 0);
+    cursor: pointer;
+  }
+  .fa-trash {
+    color: red;
+    cursor: pointer;
+  }
+
+  .edit-icon {
+    color: rgb(93, 192, 128);
+  }
+
+  .names { font-weight: bold; }
+
+  .img{
+    width: 5%;    
+  }
