@@ -71,12 +71,10 @@ public class UserService {
         newUser.setEmail(user.getEmail());
         String encodedPassword = encodePassword(user.getPassword());
         newUser.setPassword(encodedPassword);
-        //newUser.setPhoto("./assets/images/anonymous.png");
+        newUser.setPhoto("./assets/images/anonymous.png");
         newUser.setRole(role);
         newUser.setHobbies(user.getHobbies());
-        System.out.println(newUser.getHobbies());
         newUser.setPreferences(user.getPreferences());
-        System.out.println(user.getPreferences());
         userDao.save(newUser);
         return newUser;
     }
@@ -148,9 +146,9 @@ public class UserService {
         return userDao.getFriendsByUserId(userId);
     }
 
-    public void blockUser(Long userId, Long blockUserId) throws UserNotFoundException {
+    public void blockUser(UserDTO userDTO, Long blockUserId) throws UserNotFoundException {
         //TODO:if the user was a friend remove from friends list
-        userDao.blockUser(userId, blockUserId);
+        userDao.blockUser(userDTO.getId(), blockUserId);
     }
 
     public List<UserDTO> getBlockedUsersByUserId(Long userId) {
@@ -167,6 +165,7 @@ public class UserService {
         userDao.save(user);
     }
 
+    //TODO:Move this part in match service and the endpoint in match controller
 
     public List<MatchDTO> getMatches(Long userId) throws UserNotFoundException {
         List<UserDTO> availableUsers = userDao.getAvailableUsersForMatch(userId);

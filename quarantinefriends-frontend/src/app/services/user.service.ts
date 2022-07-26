@@ -97,4 +97,8 @@ export class UserService implements OnInit {
   getEventSource() {
     return this.eventSource;
   }
+
+  blockUser(id:Number, user:User) {
+    return this.httpClient.put(`http://localhost:8080/user/block/${id}`, user);
+  }
 }

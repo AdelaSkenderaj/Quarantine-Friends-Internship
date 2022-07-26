@@ -53,3 +53,8 @@ export class Hobby {
     public id:number;
     public name:string;
 }
+
+export class MatchSuggestion {
+    public user:User;
+    public percentage:number;
+}

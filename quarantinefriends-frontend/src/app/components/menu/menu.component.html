@@ -8,11 +8,28 @@
 
     <a
       mat-button
-      *ngIf="userLoggedIn"
-      (click)="onClickProfile()"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/friends-list"
       class="mat-button"
-      ><mat-icon>person_outline</mat-icon>Profile
+      ><mat-icon>person_outline</mat-icon>Friends
     </a>
+
+    <a
+      mat-button
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/match-requests"
+      class="mat-button"
+      ><mat-icon>person_outline</mat-icon>Match Requests
+    </a>
+
+    <a
+      mat-button
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/blocked-users"
+      class="mat-button"
+      ><mat-icon>person_outline</mat-icon>Blocked Users
+    </a>
+
     <a
       mat-button
       routerLink="/users"
@@ -54,11 +71,11 @@
       ><mat-icon>exit_to_app</mat-icon>Logout
     </a>
     <a *ngIf="userLoggedIn" routerLink="/"
-      ><img src="{{userLoggedIn.photo}}" class="rounded-circle menu-img" />
-    </a>
+      > <img src="{{userLoggedIn.photo}}" class="rounded-circle menu-img" />
+    </a> {{userLoggedIn.firstName}}
   </mat-toolbar>
   <div class="container">
     <router-outlet></router-outlet>
   </div>
-  <app-footer *ngIf="userLoggedIn"></app-footer>
+  <!-- <app-footer *ngIf="userLoggedIn"></app-footer> -->
 </mat-sidenav-container>

@@ -71,9 +71,9 @@ public class UserController extends ExceptionHandling {
         return userService.getFriendsByUserId(userId);
     }
 
-    @PutMapping("/user/{userId}/block/{blockUserId}")
-    public void blockUser(@PathVariable Long userId, @PathVariable Long blockUserId) throws UserNotFoundException {
-        userService.blockUser(userId, blockUserId);
+    @PutMapping("/user/block/{blockUserId}")
+    public void blockUser(@RequestBody UserDTO userDTO, @PathVariable Long blockUserId) throws UserNotFoundException {
+        userService.blockUser(userDTO, blockUserId);
     }
 
     @GetMapping("/user/{userId}/blocked-users")

@@ -20,17 +20,17 @@ public class MatchRequestController {
         this.matchRequestService = matchRequestService;
     }
 
-    @PostMapping("/match-request/{fromUserId}/{toUserId}")
-    public void addMatchRequest(@PathVariable Long fromUserId, @PathVariable Long toUserId) throws UserNotFoundException {
-        matchRequestService.addMatchRequest(fromUserId, toUserId);
+    @PostMapping("/match-request")
+    public void addMatchRequest(@RequestBody MatchRequestDTO matchRequestDTO) {
+        matchRequestService.addMatchRequest(matchRequestDTO);
     }
 
-    @DeleteMapping("/match-request/{matchRequestId}")
+    @DeleteMapping("/match-request-remove/{matchRequestId}")
     public void deleteMatchRequest(@PathVariable Long matchRequestId) throws MatchRequestNotFoundException {
         matchRequestService.deleteMatchRequest(matchRequestId);
     }
 
-    @PutMapping("/match-request/{matchRequestId}")
+    @PutMapping("/match-request-accept/{matchRequestId}")
     public void acceptMatchRequest(@PathVariable Long matchRequestId) throws MatchRequestNotFoundException, UserNotFoundException {
         matchRequestService.acceptMatchRequest(matchRequestId);
     }
