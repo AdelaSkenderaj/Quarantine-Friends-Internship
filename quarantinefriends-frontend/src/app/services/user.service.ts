@@ -108,4 +108,8 @@ export class UserService implements OnInit {
   unblockUser(id:number, user:User) {
     return this.httpClient.put(`http://localhost:8080/user/unblock/${id}`, user);
   }
+
+  getFriendsByUserId(id:number): Observable<User[]> {
+    return this.httpClient.get<User[]>(`http://localhost:8080/user/${id}/friends`);
+  }
 }

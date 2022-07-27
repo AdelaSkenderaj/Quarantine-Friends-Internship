@@ -11,6 +11,8 @@ import { RequestsComponent } from './components/requests/requests.component';
 import { BlockedUsersComponent } from './components/blocked-users/blocked-users.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { FriendListComponent } from './components/friend-list/friend-list.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 const routes: Routes = [
@@ -35,6 +37,12 @@ const routes: Routes = [
   },
   {
     path:'settings', component:SettingsComponent,
+  }, 
+  {
+    path:'friends', component:FriendListComponent,
+  },
+  {
+    path: 'chat/:id', component:ChatComponent,
   }
 ];
 
