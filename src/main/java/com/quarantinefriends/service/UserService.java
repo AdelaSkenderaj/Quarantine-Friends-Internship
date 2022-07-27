@@ -11,6 +11,7 @@ import com.quarantinefriends.exception.UsernameExistException;
 import com.quarantinefriends.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -71,12 +72,10 @@ public class UserService {
         newUser.setEmail(user.getEmail());
         String encodedPassword = encodePassword(user.getPassword());
         newUser.setPassword(encodedPassword);
-        //newUser.setPhoto("./assets/images/anonymous.png");
+        newUser.setPhoto("./assets/images/anonymous.png");
         newUser.setRole(role);
         newUser.setHobbies(user.getHobbies());
-        System.out.println(newUser.getHobbies());
         newUser.setPreferences(user.getPreferences());
-        System.out.println(user.getPreferences());
         userDao.save(newUser);
         return newUser;
     }
@@ -140,6 +139,60 @@ public class UserService {
         userDao.save(userDTO);
     }
 
+    public ResponseEntity<LoginResponse> updateUser(Long userId, UserDTO newUser) throws UserNotFoundException, EmailExistException, UsernameExistException {
+        UserDTO oldUser = userDao.findById(userId);
+        boolean same = oldUser.getUsername().equals(newUser.getUsername());
+        validateNewUsernameAndEmail(oldUser.getUsername(), newUser.getUsername(), newUser.getEmail());
+        oldUser.setFirstName(newUser.getFirstName());
+        oldUser.setLastName(newUser.getLastName());
+        oldUser.setUsername(newUser.getUsername());
+        oldUser.setEmail(newUser.getEmail());
+
+        userDao.save(oldUser);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        LoginResponse loginResponse = new LoginResponse(oldUser);
+
+        if (!same) {
+            String jwt = jwtUtils.generateJwtToken(newUser.getUsername());
+            responseHeaders.set("jwtToken", jwt);
+            loginResponse.setToken(jwt);
+
+        }
+
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(loginResponse);
+    }
+
+    public UserDTO validateNewUsernameAndEmail(String currentUsername, String newUserName, String newEmail) throws UsernameExistException, EmailExistException, UserNotFoundException {
+        UserDTO userByNewUsername = userDao.findByUsername(newUserName);
+        UserDTO userByNewEmail = userDao.findByEmail(newEmail);
+        if (StringUtils.isNotEmpty(currentUsername)) {
+            UserDTO currentUser = userDao.findByUsername(currentUsername);
+            if (currentUser == null) {
+                throw new UserNotFoundException("No user found by Username " + currentUsername);
+            }
+            if (userByNewUsername != null && !currentUser.getId().equals(userByNewUsername.getId())) {
+                throw new UsernameExistException("Username already exist");
+            }
+            if (userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
+                throw new EmailExistException("Email already exist");
+            }
+            return currentUser;
+        } else {
+            UserDTO userByUsername = userDao.findByUsername(newUserName);
+            if (userByUsername != null) {
+                throw new UsernameExistException("Username already exist");
+            }
+            UserDTO userByEmail = userDao.findByEmail(newUserName);
+            if (userByEmail != null) {
+                throw new UsernameExistException("Username already exist");
+            }
+            return null;
+        }
+    }
+
     public void removeMatch(Long friendId, UserDTO userDTO) throws UserNotFoundException {
         userDao.removeFriend(friendId, userDTO.getId());
     }
@@ -148,17 +201,17 @@ public class UserService {
         return userDao.getFriendsByUserId(userId);
     }
 
-    public void blockUser(Long userId, Long blockUserId) throws UserNotFoundException {
+    public void blockUser(UserDTO userDTO, Long blockUserId) throws UserNotFoundException {
         //TODO:if the user was a friend remove from friends list
-        userDao.blockUser(userId, blockUserId);
+        userDao.blockUser(userDTO.getId(), blockUserId);
     }
 
     public List<UserDTO> getBlockedUsersByUserId(Long userId) {
         return userDao.getBlockedUsersByUserId(userId);
     }
 
-    public void unblockUser(Long userId, Long blockedUserId) throws UserNotFoundException {
-        userDao.unblockUser(userId, blockedUserId);
+    public void unblockUser(UserDTO userDTO, Long blockedUserId) throws UserNotFoundException {
+        userDao.unblockUser(userDTO.getId(), blockedUserId);
     }
 
     public void terminateAccount(Long userId) throws UserNotFoundException {
@@ -167,6 +220,7 @@ public class UserService {
         userDao.save(user);
     }
 
+    //TODO:Move this part in match service and the endpoint in match controller
 
     public List<MatchDTO> getMatches(Long userId) throws UserNotFoundException {
         List<UserDTO> availableUsers = userDao.getAvailableUsersForMatch(userId);
@@ -177,10 +231,11 @@ public class UserService {
             MatchDTO match = new MatchDTO();
             UserDTO loggedInUser = userDao.findById(userId);
             matchingPercentage = calculateMatchingPercentage(loggedInUser, user);
-            System.out.println("matching percentage " + matchingPercentage);
+
             if(matchingPercentage > 0) {
                 match.setUser(user);
-                match.setMatchingPercentage(matchingPercentage);
+                match.setMatchingPercentage((int) (matchingPercentage * 100));
+                System.out.println("matching percentage " + match.getMatchingPercentage());
                 matches.add(match);
             }
         }
@@ -217,6 +272,7 @@ public class UserService {
 
         return ((hobbyMatch * 0.4) + (preferenceMatch * 0.4) + ageMatch);
     }
+
 
 
 }

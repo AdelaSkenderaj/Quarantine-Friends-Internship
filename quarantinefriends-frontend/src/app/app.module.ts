@@ -43,18 +43,24 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginComponent } from './components/login/login.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { RequestsComponent } from './components/requests/requests.component';
+import { BlockedUsersComponent } from './components/blocked-users/blocked-users.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SettingsComponent } from './components/settings/settings.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    FooterComponent,
     MenuComponent,
     HomepageComponent,
     SignupComponent,
+    RequestsComponent,
+    BlockedUsersComponent,
+    ProfileComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

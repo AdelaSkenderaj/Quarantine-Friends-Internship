@@ -13,5 +13,5 @@ import lombok.Setter;
 public class MatchDTO {
 
     private UserDTO user;
-    private double matchingPercentage;
+    private int matchingPercentage;
 }

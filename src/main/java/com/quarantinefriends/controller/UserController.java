@@ -61,6 +61,11 @@ public class UserController extends ExceptionHandling {
         userService.forgetPassword(email);
     }
 
+    @PutMapping("/user/{userId}")
+    public ResponseEntity<LoginResponse> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserNotFoundException, EmailExistException, UsernameExistException {
+        return this.userService.updateUser(userId, userDTO);
+    }
+
     @PutMapping("/unmatch/{friendId}")
     public void removeMatch(@PathVariable Long friendId, @RequestBody UserDTO userDTO) throws UserNotFoundException {
         userService.removeMatch(friendId, userDTO);
@@ -71,9 +76,9 @@ public class UserController extends ExceptionHandling {
         return userService.getFriendsByUserId(userId);
     }
 
-    @PutMapping("/user/{userId}/block/{blockUserId}")
-    public void blockUser(@PathVariable Long userId, @PathVariable Long blockUserId) throws UserNotFoundException {
-        userService.blockUser(userId, blockUserId);
+    @PutMapping("/user/block/{blockUserId}")
+    public void blockUser(@RequestBody UserDTO userDTO, @PathVariable Long blockUserId) throws UserNotFoundException {
+        userService.blockUser(userDTO, blockUserId);
     }
 
     @GetMapping("/user/{userId}/blocked-users")
@@ -81,9 +86,9 @@ public class UserController extends ExceptionHandling {
         return userService.getBlockedUsersByUserId(userId);
     }
 
-    @PutMapping("/user/{userId}/unblock/{blockedUserId}")
-    public void unblockUser(@PathVariable Long userId, @PathVariable Long blockedUserId) throws UserNotFoundException {
-        userService.unblockUser(userId, blockedUserId);
+    @PutMapping("/user/unblock/{blockedUserId}")
+    public void unblockUser(@RequestBody UserDTO userDTO, @PathVariable Long blockedUserId) throws UserNotFoundException {
+        userService.unblockUser(userDTO, blockedUserId);
     }
 
     @PutMapping("/terminate/{userId}")

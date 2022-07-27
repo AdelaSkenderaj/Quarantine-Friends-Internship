@@ -17,9 +17,9 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @PostMapping("/reports/{userId}")
-    public void addReport(@PathVariable Long userId) throws UserNotFoundException {
-        reportService.addReport(userId);
+    @PostMapping("/reports")
+    public void addReport(@RequestBody ReportDTO reportDTO) throws UserNotFoundException {
+        reportService.addReport(reportDTO);
     }
 
     @GetMapping("/reports")

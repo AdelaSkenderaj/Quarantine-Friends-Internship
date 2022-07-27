@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ReportDao {
@@ -38,11 +39,11 @@ public class ReportDao {
         return report;
     }
 
-    public void save(Report report) {
-        reportRepository.save(report);
+    public void save(ReportDTO reportDTO) {
+        reportRepository.save(mapToEntity(reportDTO));
     }
 
-    public List<Report> findAll() {
-        return reportRepository.findAll();
+    public List<ReportDTO> findAll() {
+        return reportRepository.findAll().stream().map(ReportDao::mapToDTO).collect(Collectors.toList());
     }
 }

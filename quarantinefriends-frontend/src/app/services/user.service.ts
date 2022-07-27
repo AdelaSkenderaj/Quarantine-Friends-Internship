@@ -1,4 +1,4 @@
-import {  User, Role } from './../model/model';
+import {  User, Role, Report } from './../model/model';
 import { EventEmitter, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
@@ -39,12 +39,11 @@ export class UserService implements OnInit {
 //     return this.httpClient.delete(`http://localhost:8080/api/delete/${id}`);
 //   }
 
-//   updateUser(user: User): Observable<HttpResponse<User>> {
-//     return this.httpClient.put<HttpResponse<User>>(
-//       `${this.userEndPoint}/${user.id}`,
-//       user
-//     );
-//   }
+  updateUser(user: User): Observable<HttpResponse<User>> {
+    return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/user/${user.id}`,
+      user
+    );
+  }
 
   getUserById(id: number): Observable<User> {
     return this.httpClient.get<User>(`http://localhost:8080/user/${id}`);
@@ -96,5 +95,17 @@ export class UserService implements OnInit {
 
   getEventSource() {
     return this.eventSource;
+  }
+
+  blockUser(id:Number, user:User) {
+    return this.httpClient.put(`http://localhost:8080/user/block/${id}`, user);
+  }
+
+  getBlockedUsers(id:number): Observable<User[]> {
+    return this.httpClient.get<User[]>(`http://localhost:8080/user/${id}/blocked-users`);
+  }
+
+  unblockUser(id:number, user:User) {
+    return this.httpClient.put(`http://localhost:8080/user/unblock/${id}`, user);
   }
 }

@@ -7,4 +7,8 @@ public class UserNotFoundException extends Exception{
     public UserNotFoundException() {
         super(message);
     }
+
+    public UserNotFoundException(String newMessage) {
+        super(newMessage);
+    }
 }
