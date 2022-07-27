@@ -13,6 +13,6 @@ public class MessageDTO {
 
     private Long id;
     private String message;
-    private UserDTO user;
-    private ChatDTO chat;
+    private UserDTO fromUser;
+    private UserDTO toUser;
 }

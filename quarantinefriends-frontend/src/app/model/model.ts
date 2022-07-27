@@ -34,11 +34,10 @@ export class Preference {
 
 export class Message {
     public id:number;
-    constructor(
-        public  message: string,
-        public fromUser: User,
-        public toUser: User
-    ) {}
+    public  message: string;
+    public fromUser: User;
+    public toUser: User;
+    constructor() {}
 }
     
 export class MatchRequest {

@@ -20,9 +20,10 @@ public class Message {
     @Column(name="message")
     private String message;
 
-    @OneToOne
-    private User user;
 
-    @OneToOne
-    private Chat chat;
+    @ManyToOne
+    private User fromUser;
+
+    @ManyToOne
+    private User toUser;
 }

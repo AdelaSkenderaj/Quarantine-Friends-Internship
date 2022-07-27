@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 @CrossOrigin("http://localhost:4200")
+
 public class MatchRequestController {
 
     private final MatchRequestService matchRequestService;
@@ -30,7 +31,7 @@ public class MatchRequestController {
         matchRequestService.deleteMatchRequest(matchRequestId);
     }
 
-    @PutMapping("/match-request-accept/{matchRequestId}")
+    @DeleteMapping("/match-request-accept/{matchRequestId}")
     public void acceptMatchRequest(@PathVariable Long matchRequestId) throws MatchRequestNotFoundException, UserNotFoundException {
         matchRequestService.acceptMatchRequest(matchRequestId);
     }

@@ -9,14 +9,6 @@
     <a
       mat-button
       *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
-      routerLink="/friends-list"
-      class="mat-button"
-      ><mat-icon>person_outline</mat-icon>Friends
-    </a>
-
-    <a
-      mat-button
-      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
       routerLink="/match-requests"
       class="mat-button"
       ><mat-icon>person_outline</mat-icon>Match Requests
@@ -51,17 +43,12 @@
     <span class="example-spacer"></span>
     <a
       mat-button
-      routerLink="/notifications"
-      *ngIf="userLoggedIn"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/friends"
       class="mat-button"
-    >
-      <mat-icon
-        matBadge=""
-        matBadgeColor="warn"
-        [matBadgeHidden]=""
-        >notifications</mat-icon
-      >
+      ><mat-icon>chat</mat-icon>
     </a>
+    
     <a
       mat-button
       class="mat-button"
