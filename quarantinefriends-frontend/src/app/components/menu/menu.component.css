@@ -4,7 +4,7 @@ img {
     margin-left: 20px;
   }
   .navbar-brand {
-    color: #801d77;
+    color: #340b30;
     font-weight: bolder;
     font-size: 25px;
   
@@ -22,7 +22,7 @@ img {
   }
   mat-toolbar {
     width: 100%;
-    background-color: #801d77;
+    background-color: #340b30;
     color: white;
   }
   .example-spacer {

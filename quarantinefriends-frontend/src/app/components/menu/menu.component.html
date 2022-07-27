@@ -70,7 +70,7 @@
       routerLink="/"
       ><mat-icon>exit_to_app</mat-icon>Logout
     </a>
-    <a *ngIf="userLoggedIn" routerLink="/"
+    <a *ngIf="userLoggedIn" routerLink="/profile/{{userLoggedIn.id}}"
       > <img src="{{userLoggedIn.photo}}" class="rounded-circle menu-img" />
     </a> {{userLoggedIn.firstName}}
   </mat-toolbar>

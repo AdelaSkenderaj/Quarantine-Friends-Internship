@@ -48,6 +48,8 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { RequestsComponent } from './components/requests/requests.component';
 import { BlockedUsersComponent } from './components/blocked-users/blocked-users.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SettingsComponent } from './components/settings/settings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +59,8 @@ import { BlockedUsersComponent } from './components/blocked-users/blocked-users.
     SignupComponent,
     RequestsComponent,
     BlockedUsersComponent,
+    ProfileComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

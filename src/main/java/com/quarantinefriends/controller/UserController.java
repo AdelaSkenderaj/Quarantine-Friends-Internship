@@ -61,6 +61,11 @@ public class UserController extends ExceptionHandling {
         userService.forgetPassword(email);
     }
 
+    @PutMapping("/user/{userId}")
+    public ResponseEntity<LoginResponse> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserNotFoundException, EmailExistException, UsernameExistException {
+        return this.userService.updateUser(userId, userDTO);
+    }
+
     @PutMapping("/unmatch/{friendId}")
     public void removeMatch(@PathVariable Long friendId, @RequestBody UserDTO userDTO) throws UserNotFoundException {
         userService.removeMatch(friendId, userDTO);

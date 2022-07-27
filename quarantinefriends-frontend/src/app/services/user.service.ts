@@ -39,12 +39,11 @@ export class UserService implements OnInit {
 //     return this.httpClient.delete(`http://localhost:8080/api/delete/${id}`);
 //   }
 
-//   updateUser(user: User): Observable<HttpResponse<User>> {
-//     return this.httpClient.put<HttpResponse<User>>(
-//       `${this.userEndPoint}/${user.id}`,
-//       user
-//     );
-//   }
+  updateUser(user: User): Observable<HttpResponse<User>> {
+    return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/user/${user.id}`,
+      user
+    );
+  }
 
   getUserById(id: number): Observable<User> {
     return this.httpClient.get<User>(`http://localhost:8080/user/${id}`);
