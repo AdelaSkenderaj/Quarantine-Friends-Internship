@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Message, Report, User } from 'src/app/model/model';
+import { MatchService } from 'src/app/services/match.service';
 import { MessageService } from 'src/app/services/message.service';
 import { ReportService } from 'src/app/services/report.service';
 import { UserService } from 'src/app/services/user.service';
@@ -14,6 +15,7 @@ export class ChatComponent implements OnInit {
   user:User;
   friends: User[] = [];
   chattingFriend:User;
+  areFriends:boolean;
   messages: Message[] = [];
   @ViewChild('input') input: ElementRef;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -24,6 +26,7 @@ export class ChatComponent implements OnInit {
     private messageService:MessageService,
     private reportService:ReportService,
     private router:Router,
+    private matchService:MatchService,
 
     ) { }
 
@@ -40,10 +43,19 @@ export class ChatComponent implements OnInit {
           let friendId = +paramMap.get('id');
           this.userService.getUserById(friendId).subscribe((response) => {
             this.chattingFriend = response;
-            this.messageService.getMessagesForFriends(this.user.id, this.chattingFriend.id).subscribe((response) => {
+            this.userService.checkIfFriends(this.user.id, this.chattingFriend.id).subscribe((response:boolean) => {
+              this.areFriends = response;
+              if(this.areFriends) {
+                this.messageService.getMessagesForFriends(this.user.id, this.chattingFriend.id).subscribe((response) => {
               this.messages = response;
               this.scrollToBottom();
             });
+              }
+              else{
+                this.router.navigate(['/friends']);
+              }
+            })
+            
           });
         });
       });
@@ -87,8 +99,10 @@ export class ChatComponent implements OnInit {
     this.reportService.reportUser(report).subscribe();
   }
 
-  unMatch() {
-
+  unMatch(id:number) {
+    this.matchService.unmatch(id, this.user).subscribe((response) => {
+      this.refreshData();
+    })
   }
 
 }

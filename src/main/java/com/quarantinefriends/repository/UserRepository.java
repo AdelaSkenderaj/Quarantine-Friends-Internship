@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    @Query(value="select * from user where account_terminated=false",nativeQuery = true)
+    @Query(value="select * from user where account_terminated=false and role_id=1",nativeQuery = true)
     List<User> findEnabledUsers();
 
     @Query(value="select count(id) as number from user where account_terminated=true", nativeQuery = true)
@@ -32,4 +32,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query(value="delete from user_block where blocked_user_id=:userId", nativeQuery = true)
     void removeFromBlockedUsers(Long userId);
+
+    @Query(value="select user.id from match_request inner join user on user.id=match_request.to_user_id where from_user_id=:userId", nativeQuery = true)
+    List<User> findRequestedUsers(Long userId);
+
+    @Modifying
+    @Query(value="delete from friendships where friend_one_id=:userId or friend_two_id=:userId", nativeQuery = true)
+    void removeFromFriendships(Long userId);
+
+    @Query(value="select user.id from user_block inner join user on user.id=user_block.user_id where blocked_user_id=:userId",nativeQuery = true)
+    List<User> findBlockingUsers(Long userId);
 }

@@ -18,6 +18,8 @@ import { HomeComponent } from './components/home/home.component';
 import {UserListComponent} from "./components/user-list/user-list.component";
 import {ReportListComponent} from "./components/report-list/report-list.component";
 import {BannedUserListComponent} from "./components/banned-user-list/banned-user-list.component";
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -63,6 +65,12 @@ const routes: Routes = [
   },
   {
     path: 'banned-users', component:BannedUserListComponent,
+  },
+  {
+    path:'change-password', component:ChangePasswordComponent,
+  },
+  {
+    path: 'forgot-password', component:ForgotPasswordComponent,
   }
 ];
 

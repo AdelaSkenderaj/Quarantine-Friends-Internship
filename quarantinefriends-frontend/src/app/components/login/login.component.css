@@ -1,48 +1,69 @@
-.login-form {
-    margin-top: 20%;
-  }
-  .login-container {
-    margin-top: 0%;
-  }
-  mat-form-field {
-    width: 50%;
-    margin-right: 40%;
-    font-size: 18px;
-  }
-  button {
-    width: 30%;
-  }
-  .hide-icon {
-    transform: scale(1.4);
-  }
-  mat-icon {
-    font-size: 50px;
-    height: 20px;
-  }
-  
-  .image-container {
-    margin-bottom: -2%;
-  }
-  .logo-image {
-    width: 20%;
-  }
-  .form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: white;
-  }
-  .all-container {
-    flex-direction: column;
-  }
-  .form-container-1 {
-    margin-left: 60%;
-  }
-  .login-button {
-    width: 26%;
-    margin-right: 0.5em;
-  }
-  .container {
-    margin-top: 20em;
-  }
-  
+
+mat-form-field {
+  width: 65%;
+  margin-left: 20%;
+  font-size: 18px;
+}
+
+button {
+  width: 30%;
+}
+
+.hide-icon {
+  transform: scale(1.4);
+}
+mat-icon {
+  font-size: 50px;
+  height: 20px;
+}
+
+.login-button {
+  width: 26%;
+  margin-right: 0.5em;
+}
+
+.background-radial-gradient {
+  background-color: hsl(218, 41%, 15%);
+  background-image: radial-gradient(650px circle at 0% 0%,
+      hsl(218, 41%, 35%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
+      hsl(218, 41%, 45%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%);
+      margin-left: -9%;
+      margin-right: -9%;
+      
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -60px;
+  left: -130px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -60px;
+  right: -110px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+  margin-top: 25.7%;
+}
+
+

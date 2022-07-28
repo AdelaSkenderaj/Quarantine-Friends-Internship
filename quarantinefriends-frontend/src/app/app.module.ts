@@ -57,6 +57,8 @@ import { HomeComponent } from './components/home/home.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { BannedUserListComponent } from './components/banned-user-list/banned-user-list.component';
 import { ReportListComponent } from './components/report-list/report-list.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +77,8 @@ import { ReportListComponent } from './components/report-list/report-list.compon
     UserListComponent,
     BannedUserListComponent,
     ReportListComponent,
+    ChangePasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

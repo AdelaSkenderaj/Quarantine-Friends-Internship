@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatchSuggestion, User } from 'src/app/model/model';
+import { MatchSuggestion, Report, User } from 'src/app/model/model';
 import { MatchService } from 'src/app/services/match.service';
 import { UserService } from 'src/app/services/user.service';
 import { MatchRequest } from 'src/app/model/model';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-homepage',
@@ -17,6 +18,7 @@ export class HomepageComponent implements OnInit {
   constructor(
     private userService :UserService,
     private matchService : MatchService,
+    private reportService:ReportService,
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +30,7 @@ export class HomepageComponent implements OnInit {
       this.user = response;
       this.matchService.getMatches(this.user.id).subscribe((response: MatchSuggestion[]) => {
         this.matchSuggestions=response;
+        this.matchSuggestions.sort((a : MatchSuggestion, b:MatchSuggestion) => a.matchingPercentage < b.matchingPercentage ? 1 : -1);
       });
     });
   }
@@ -46,5 +49,12 @@ export class HomepageComponent implements OnInit {
       this.userService.blockUser(id, this.user).subscribe(response => {
         this.refreshSuggestions();
       });
+  }
+
+  reportUser(user:User) {
+    let report = new Report();
+    report.user = user;
+    report.date = new Date();
+    this.reportService.reportUser(report).subscribe();
   }
 }

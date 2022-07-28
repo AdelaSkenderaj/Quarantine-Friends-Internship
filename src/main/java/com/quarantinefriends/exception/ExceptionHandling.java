@@ -1,5 +1,6 @@
 package com.quarantinefriends.exception;
 
+import com.quarantinefriends.dto.MatchDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,21 @@ public class ExceptionHandling {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<HttpResponse> userNotFoundException(UserNotFoundException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<HttpResponse> emailNotFoundException(EmailNotFoundException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(MatchRequestNotFoundException.class)
+    public ResponseEntity<HttpResponse> matchRequestNotFoundException(MatchRequestNotFoundException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(AccountHasBeenBannedException.class)
+    public ResponseEntity<HttpResponse> accountHasBeenBanned(AccountHasBeenBannedException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 

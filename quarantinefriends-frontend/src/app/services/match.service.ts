@@ -35,4 +35,8 @@ export class MatchService {
   getRequestsFromUser(id:number): Observable<MatchRequest[]> {
     return this.httpClient.get<MatchRequest[]>(`http://localhost:8080/match-request-from/${id}`);
   }
+
+  unmatch(friendId:number, user:User) {
+    return this.httpClient.put(`http://localhost:8080/unmatch/${friendId}`, user);
+  }
 }
