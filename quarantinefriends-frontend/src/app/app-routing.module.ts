@@ -13,6 +13,11 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { FriendListComponent } from './components/friend-list/friend-list.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HomeComponent } from './components/home/home.component';
+import {UserListComponent} from "./components/user-list/user-list.component";
+import {ReportListComponent} from "./components/report-list/report-list.component";
+import {BannedUserListComponent} from "./components/banned-user-list/banned-user-list.component";
 
 
 const routes: Routes = [
@@ -37,12 +42,27 @@ const routes: Routes = [
   },
   {
     path:'settings', component:SettingsComponent,
-  }, 
+  },
   {
     path:'friends', component:FriendListComponent,
   },
   {
     path: 'chat/:id', component:ChatComponent,
+  },
+  {
+    path: 'dashboard', component: DashboardComponent,
+  },
+  {
+    path: 'home', component: HomeComponent,
+  },
+  {
+    path:'users', component: UserListComponent,
+  },
+  {
+    path: 'reports', component:ReportListComponent,
+  },
+  {
+    path: 'banned-users', component:BannedUserListComponent,
   }
 ];
 

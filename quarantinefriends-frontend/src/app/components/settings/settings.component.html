@@ -40,11 +40,10 @@
         </div>
       </div>
 
-<div [formGroup]="userFormGroup" (submit)="onSubmit()" formGroupName="user">
-  
+
     <div class="tab-content pt-3">
-        <form [formGroup]="userFormGroup" (submit)="onSubmit()">
-          <div class="form-area" formGroupName="user">
+        <div [formGroup]="userFormGroup" (submit)="onSubmit()">
+          <div class="form-area" >
             <div class="tab-pane active">
               <div class="row">
                 <div class="col">
@@ -57,7 +56,7 @@
                           type="text"
                           name="firstName"
                           placeholder="{{ user?.firstName }}"
-                          formControlName="firstName"
+                          formControlName="firstname"
                         />
                       </div>
                     </div>
@@ -69,7 +68,7 @@
                           type="text"
                           name="lastName"
                           placeholder="{{ user?.lastName }}"
-                          formControlName="lastName"
+                          formControlName="lastname"
                         />
                       </div>
                     </div>
@@ -112,6 +111,38 @@
                       </div>
                     </div>
                   </div>
+
+                  <mat-form-field>
+                    <mat-select
+                      placeholder="Hobbies"
+                      multiple
+                      formControlName="hobbies"
+                    >
+                      <mat-option
+                        class="option"
+                        *ngFor="let hobby of allHobbies"
+                        value="{{ hobby.id }}"
+                      >{{ hobby.name }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-select
+                      placeholder="Preferences"
+                      multiple
+                      formControlName="preferences"
+
+                    >
+                      <mat-option
+                        class="option"
+                        *ngFor="let preference of allPreferences"
+                        value="{{ preference.id }}"
+                        >{{ preference.name }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+
                   </div>
                   </div>
                 </div>
@@ -137,9 +168,6 @@
                   </div>
                 </div>
           </div>
-        </form>
+        </div>
       </div>
 
-  </div>
-
-  

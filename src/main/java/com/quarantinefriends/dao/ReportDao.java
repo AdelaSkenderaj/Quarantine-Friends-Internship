@@ -43,7 +43,7 @@ public class ReportDao {
         reportRepository.save(mapToEntity(reportDTO));
     }
 
-    public List<ReportDTO> findAll() {
-        return reportRepository.findAll().stream().map(ReportDao::mapToDTO).collect(Collectors.toList());
+    public List<ReportDTO> findReportsForNonTerminatedAccounts() {
+        return reportRepository.findReportsForNonTerminatedAccounts().stream().map(ReportDao::mapToDTO).collect(Collectors.toList());
     }
 }

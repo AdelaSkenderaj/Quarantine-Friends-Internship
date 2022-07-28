@@ -1,8 +1,10 @@
 package com.quarantinefriends.controller;
 
+import com.quarantinefriends.dao.StatisticsDao;
 import com.quarantinefriends.dto.ReportDTO;
 import com.quarantinefriends.exception.UserNotFoundException;
 import com.quarantinefriends.service.ReportService;
+import com.quarantinefriends.service.StatisticsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +14,11 @@ import java.util.List;
 public class ReportController {
 
     private final ReportService reportService;
+    private final StatisticsService statisticsService;
 
-    public ReportController(ReportService reportService) {
+    public ReportController(ReportService reportService, StatisticsService statisticsService) {
         this.reportService = reportService;
+        this.statisticsService = statisticsService;
     }
 
     @PostMapping("/reports")
@@ -26,4 +30,5 @@ public class ReportController {
     public List<ReportDTO> getAllReports() {
         return reportService.getAllReports();
     }
+
 }

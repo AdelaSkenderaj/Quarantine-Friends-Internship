@@ -51,6 +51,11 @@ public class UserController extends ExceptionHandling {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/enabled-users")
+    public List<UserDTO> getEnabledUsers() {
+        return this.userService.getEnabledUsers();
+    }
+
     @PutMapping("/reset-password/{userId}")
     public void resetPassword(@PathVariable Long userId, @RequestBody String password) throws UserNotFoundException {
         userService.resetPassword(userId, password);
@@ -92,13 +97,23 @@ public class UserController extends ExceptionHandling {
     }
 
     @PutMapping("/terminate/{userId}")
-    public void terminateAccount(@PathVariable Long userId) throws UserNotFoundException {
-        userService.terminateAccount(userId);
+    public void terminateAccount(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserNotFoundException {
+        userService.terminateAccount(userId, userDTO);
+    }
+
+    @PutMapping("/revoke/{userId}")
+    public void revokeBan(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws UserNotFoundException {
+        userService.revokeBan(userId, userDTO);
     }
 
     @GetMapping("/matches/{userId}")
     public List<MatchDTO> getMatches(@PathVariable Long userId) throws UserNotFoundException {
         return userService.getMatches(userId);
+    }
+
+    @GetMapping("/banned-users")
+    public List<UserDTO> getBannedUsers() {
+        return userService.getBannedUsers();
     }
 
 }

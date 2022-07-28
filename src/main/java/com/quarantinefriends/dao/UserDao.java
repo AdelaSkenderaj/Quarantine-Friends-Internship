@@ -209,4 +209,40 @@ public class UserDao {
     }
 
 
+    public Long getNrUsers() {
+        return userRepository.count();
+    }
+
+    public Long getNrBannedUsers() {
+        return userRepository.findNrBannedUsers();
+    }
+
+    public Long getNrFriendships() {
+        return userRepository.findNrOfFriendships();
+    }
+
+    public List<UserDTO> getEnabledUsers() {
+        return this.userRepository.findEnabledUsers().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+    }
+
+    public List<UserDTO> getBannedUsers() {
+        return userRepository.findBannedUsers().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+    }
+
+    public void terminateAccount(Long userId, UserDTO userDTO) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user != null) {
+            List<User> friends = user.getFriends();
+            if(!friends.isEmpty()) {
+                for(User friend: friends) {
+                    removeFriend(friend.getId(), userId);
+                }
+            }
+            userRepository.removeFromBlockedUsers(userId);
+            user.setAccountTerminated(true);
+            userRepository.save(user);
+
+        }
+
+    }
 }

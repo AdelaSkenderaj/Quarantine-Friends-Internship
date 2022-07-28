@@ -40,7 +40,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/register", "/login", "/swagger*/*", "/hobbies", "/preferences").permitAll()
+                .authorizeRequests().antMatchers("/register", "/login", "/swagger*/*", "/hobbies", "/preferences", "/statistics").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
