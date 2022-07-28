@@ -48,4 +48,8 @@ public class MessageDao {
     public void save(MessageDTO messageDTO) {
         this.messageRepository.save(mapToEntity(messageDTO));
     }
+
+    public Long getNrExchangedMessages() {
+        return this.messageRepository.count();
+    }
 }

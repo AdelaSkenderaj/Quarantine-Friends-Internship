@@ -1,0 +1,54 @@
+<div class="div mt-5">
+  <hr />
+</div>
+
+<div class="container">
+  <table
+    mat-table
+    class="mat-elevation-z5 users-table"
+    [dataSource]="users"
+  >
+
+    <ng-container matColumnDef="Profile Photo">
+      <th mat-header-cell *matHeaderCellDef>Profile Photo</th>
+      <td mat-cell *matCellDef="let user">
+        <a mat-button class="request justify-content-between" routerLink="/profile/{{user.id}}">
+          <img class="img" src="{{ user.photo }}" alt="" />
+        </a>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="First Name">
+      <th mat-header-cell *matHeaderCellDef >First Name</th>
+      <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Last Name">
+      <th mat-header-cell *matHeaderCellDef >Last Name</th>
+      <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Age">
+      <th mat-header-cell *matHeaderCellDef>Age</th>
+      <td mat-cell *matCellDef="let user">{{ user.age }}</td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Terminate Account">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let user">
+        <button
+          mat-icon-button
+          matTooltip="Terminate Account"
+          color="warn"
+          aria-label="Example icon button with a home icon"
+          (click)="banUser(user)"
+        >
+          <mat-icon>remove_circle_outline</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let user; columns: displayColumns"></tr>
+  </table>
+</div>

@@ -30,6 +30,6 @@ public class ReportService {
     }
 
     public List<ReportDTO> getAllReports() {
-        return reportDao.findAll();
+        return reportDao.findReportsForNonTerminatedAccounts();
     }
 }

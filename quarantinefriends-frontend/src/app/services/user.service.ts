@@ -39,10 +39,9 @@ export class UserService implements OnInit {
 //     return this.httpClient.delete(`http://localhost:8080/api/delete/${id}`);
 //   }
 
-  updateUser(user: User): Observable<HttpResponse<User>> {
-    return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/user/${user.id}`,
-      user
-    );
+  updateUser(id:number ,user: User): Observable<HttpResponse<User>> {
+    console.log(user);
+    return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/user/${id}`,user);
   }
 
   getUserById(id: number): Observable<User> {
@@ -111,5 +110,21 @@ export class UserService implements OnInit {
 
   getFriendsByUserId(id:number): Observable<User[]> {
     return this.httpClient.get<User[]>(`http://localhost:8080/user/${id}/friends`);
+  }
+
+  getEnabledUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`http://localhost:8080/enabled-users`);
+  }
+
+  terminateAccount(id:number, person:User) {
+      return this.httpClient.put(`http://localhost:8080/terminate/${id}`, person);
+  }
+
+  revokeBan(id:number, user:User) {
+    return this.httpClient.put(`http://localhost:8080/revoke/${id}`, user);
+  }
+
+  getBannedUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`http://localhost:8080/banned-users`);
   }
 }

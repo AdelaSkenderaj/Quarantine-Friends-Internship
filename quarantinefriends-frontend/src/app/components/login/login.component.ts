@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   password: string;
   invalidLogin: boolean;
   hide = true;
+  user:User;
   ngOnInit(): void {}
 
   handleLogin() {
@@ -33,7 +34,16 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', response.body['token']);
         this.userService.userLoggedIn.next(response.body['user']);
         //this.openSnackBar();
-        this.router.navigate(['/homepage']);
+        this.userService.userLoggedIn.subscribe((response)=> {
+          this.user = response;
+          if(this.user.role.name == 'ROLE_USER') {
+            this.router.navigate(['/homepage']);
+          }
+          else {
+            this.router.navigate(['/dashboard']);
+          }
+        })
+        
       });
   }
 

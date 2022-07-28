@@ -24,7 +24,7 @@ export class SettingsComponent implements OnInit {
   allHobbies:Hobby[] = [];
   allPreferences: Preference[] = [];
   dropdownList=[];
-  
+
 
   constructor(
     private userService:UserService,
@@ -52,40 +52,23 @@ export class SettingsComponent implements OnInit {
 
   refreshFormGroup() {
     this.userFormGroup = this.formBuilder.group({
-      user:this.formBuilder.group ({
-        firstName: new FormControl(`${this.user ? this.user.firstName : ''}`, [
-          Validators.required,
-        ]),
-        lastName: new FormControl(`${this.user? this.user.lastName: ''}`, [
-          Validators.required,
-        ]),
-        username: new FormControl(`${this.user ? this.user.username : ''}`,[
-          Validators.required,
-        ]),
-        email: new FormControl(`${this.user? this.user.email : ''}`, [
-          Validators.required,
-        ]),
-        age: new FormControl(`${this.user ? this.user.age : ''}`, [
-          Validators.required,
-        ]),
-        hobbies: new FormControl(`${this.user? this.user.hobbies : [[]]}`,[
-          Validators.required,
-        ]),
-        preferences: new FormControl(`${this.user? this.user.preferences: ''}`, [
-          Validators.required,
-        ]),
-      }),
-
+      firstname:[`${this.user ? this.user.firstName : ''}`, [Validators.required]],
+      lastname: [`${this.user? this.user.lastName: ''}`, Validators.required],
+      username: [`${this.user? this.user.username: ''}`, Validators.required],
+      age: [`${this.user? this.user.age: ''}` , Validators.required],
+      email: [`${this.user? this.user.email : ''}`, Validators.required],
+      hobbies: [`${this.user? this.user.hobbies : []}`, Validators.required],
+      preferences: [`${this.user ? this.user.preferences : []}`, Validators.required],
     });
   }
 
   onSubmit() {
     let user = new User();
-    user.firstName = this.userFormGroup.value.user.firstName;
-    user.lastName = this.userFormGroup.value.user.lastName;
-    user.username = this.userFormGroup.value.user.username;
-    user.age = Number(this.userFormGroup.value.user.age);
-    user.email= this.userFormGroup.value.user.email
+    user.firstName = this.userFormGroup.controls['firstname'].value;
+    user.lastName = this.userFormGroup.controls['lastname'].value;
+    user.username = this.userFormGroup.controls['username'].value;
+    user.age = Number(this.userFormGroup.controls['age'].value);
+    user.email= this.userFormGroup.controls['email'].value;
 
     let userHobbies: Hobby[] = [];
     let userPreferences: Preference[] = [];
@@ -113,7 +96,7 @@ export class SettingsComponent implements OnInit {
     user.hobbies = userHobbies;
     user.preferences = userPreferences;
 
-    this.userService.updateUser(user).subscribe((response)=> {
+    this.userService.updateUser(this.user.id ,user).subscribe((response)=> {
       localStorage.setItem('user', JSON.stringify(response['user']));
       if(response['token'] != null) {
         localStorage.clear();
@@ -125,6 +108,7 @@ export class SettingsComponent implements OnInit {
       this.userService.userLoggedIn.next(this.user);
       this.userService.userLoggedIn.subscribe((response)=> {
         this.user = response;
+        console.log(response);
         this.refreshFormGroup();
       })
     })

@@ -147,6 +147,8 @@ public class UserService {
         oldUser.setLastName(newUser.getLastName());
         oldUser.setUsername(newUser.getUsername());
         oldUser.setEmail(newUser.getEmail());
+        oldUser.setHobbies(newUser.getHobbies());
+        oldUser.setPreferences(newUser.getPreferences());
 
         userDao.save(oldUser);
 
@@ -214,9 +216,13 @@ public class UserService {
         userDao.unblockUser(userDTO.getId(), blockedUserId);
     }
 
-    public void terminateAccount(Long userId) throws UserNotFoundException {
+    public void terminateAccount(Long userId, UserDTO userDTO) throws UserNotFoundException {
+        userDao.terminateAccount(userId, userDTO);
+    }
+
+    public void revokeBan(Long userId, UserDTO userDTO) throws UserNotFoundException {
         UserDTO user = userDao.findById(userId);
-        user.setAccountTerminated(true);
+        user.setAccountTerminated(false);
         userDao.save(user);
     }
 
@@ -273,6 +279,14 @@ public class UserService {
         return ((hobbyMatch * 0.4) + (preferenceMatch * 0.4) + ageMatch);
     }
 
+
+    public List<UserDTO> getEnabledUsers() {
+        return this.userDao.getEnabledUsers();
+    }
+
+    public List<UserDTO> getBannedUsers() {
+        return userDao.getBannedUsers();
+    }
 
 
 }

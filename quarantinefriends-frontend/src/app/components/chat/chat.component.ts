@@ -18,7 +18,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('input') input: ElementRef;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  constructor(    
+  constructor(
     private userService:UserService,
     private activatedRoute:ActivatedRoute,
     private messageService:MessageService,
@@ -50,29 +50,14 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  // refreshFriends() {
-  //   this.userService.getFriendsByUserId(this.user.id).subscribe((response) => {
-  //     this.friends = response;
-  //   })
-  // }
-
-  // refreshData() {
-  //   this.activatedRoute.paramMap.subscribe((paramMap)  => {
-  //     let friendId = +paramMap.get('id');
-  //     this.userService.getUserById(friendId).subscribe((response) => {
-  //       this.chattingFriend = response;
-  //       this.messageService.getMessagesForFriends(this.user.id, this.chattingFriend.id).subscribe((response) => {
-  //         this.messages = response;
-  //         this.scrollToBottom();
-  //       })
-  //     })
-  //   })
-  // }
-
   scrollToBottom() : void {
     try{
       this.myScrollContainer.nativeElement.scrollToBottom = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err){}
+      console.log(this.myScrollContainer.nativeElement.scrollHeight);
+      console.log(this.myScrollContainer.nativeElement.scrollToBottom );
+    } catch(err){
+      console.log(err);
+    }
   }
 
   onClick(){
@@ -83,7 +68,6 @@ export class ChatComponent implements OnInit {
     message.toUser = this.chattingFriend;
     this.messageService.addMessage(message).subscribe((response)=> {
       this.refreshData();
-      this.scrollToBottom();
     })
     this.input.nativeElement.value='';
   }
@@ -98,9 +82,13 @@ export class ChatComponent implements OnInit {
 
   reportUser() {
     let report = new Report();
-    report.user = this.user;
+    report.user = this.chattingFriend;
     report.date = new Date();
     this.reportService.reportUser(report).subscribe();
+  }
+
+  unMatch() {
+
   }
 
 }

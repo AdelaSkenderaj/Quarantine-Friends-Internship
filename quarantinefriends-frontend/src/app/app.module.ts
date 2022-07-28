@@ -52,6 +52,11 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { FriendListComponent } from './components/friend-list/friend-list.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HomeComponent } from './components/home/home.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { BannedUserListComponent } from './components/banned-user-list/banned-user-list.component';
+import { ReportListComponent } from './components/report-list/report-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +70,11 @@ import { ChatComponent } from './components/chat/chat.component';
     SettingsComponent,
     FriendListComponent,
     ChatComponent,
+    DashboardComponent,
+    HomeComponent,
+    UserListComponent,
+    BannedUserListComponent,
+    ReportListComponent,
   ],
   imports: [
     BrowserModule,
