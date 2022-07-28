@@ -8,6 +8,7 @@ import { PreferenceService } from 'src/app/services/preference.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FileService } from 'src/app/services/file.service';
+import { openEditPasswordDialog } from '../change-password/change-password.component';
 
 @Component({
   selector: 'app-settings',
@@ -150,6 +151,7 @@ export class SettingsComponent implements OnInit {
       }
       this.userService.userLoggedIn.next(this.user);
       this.selectedFiles = undefined;
+      this.refreshFormGroup();
     }
   }
 
@@ -157,8 +159,8 @@ export class SettingsComponent implements OnInit {
     this.selectedFiles = event.target.files;
   }
 
-  // resetPassword() {
-  //   openEditPasswordDialog(this.dialog, this.user).subscribe();
-  // }
+  resetPassword() {
+    openEditPasswordDialog(this.dialog, this.user).subscribe();
+  }
 
 }

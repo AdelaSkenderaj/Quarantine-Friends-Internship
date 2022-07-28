@@ -187,22 +187,30 @@ public class UserDao {
         if(!availableUsers.isEmpty() && currentUser != null) {
             List<UserDTO> friends = currentUser.getFriends().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
             List<UserDTO> blockedUsers = currentUser.getBlockedUsers().stream().map(UserDao :: mapToDTO).collect(Collectors.toList());
-
+            List<UserDTO> requestedUsers = userRepository.findRequestedUsers(userId).stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+            List<UserDTO> blockingUsers = userRepository.findBlockingUsers(userId).stream().map(UserDao::mapToDTO).collect(Collectors.toList());
             for(UserDTO friend : friends) {
                 if(availableUsers.contains(friend)) {
-                    System.out.println("removing friend");
                     availableUsers.remove(friend);
                 }
             }
 
             for(UserDTO blocked : blockedUsers) {
                 if(availableUsers.contains(blocked)) {
-                    System.out.println("removing blocked user");
                     availableUsers.remove(blocked);
                 }
             }
+
+            for(UserDTO requestedUser: requestedUsers) {
+                if(availableUsers.contains(requestedUser)) {
+                    availableUsers.remove(requestedUser);
+                }
+            }
+
+            for(UserDTO user : blockingUsers) {
+                availableUsers.remove(user);
+            }
             availableUsers.remove(mapToDTO(currentUser));
-            System.out.println(availableUsers);
             return availableUsers;
         }
         return null;
@@ -229,20 +237,26 @@ public class UserDao {
         return userRepository.findBannedUsers().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
     }
 
-    public void terminateAccount(Long userId, UserDTO userDTO) throws UserNotFoundException {
+    @Transactional
+    public void terminateAccount(Long userId, UserDTO userDTO) {
         User user = userRepository.findById(userId).orElse(null);
         if(user != null) {
-            List<User> friends = user.getFriends();
-            if(!friends.isEmpty()) {
-                for(User friend: friends) {
-                    removeFriend(friend.getId(), userId);
-                }
-            }
+            userRepository.removeFromFriendships(userId);
             userRepository.removeFromBlockedUsers(userId);
             user.setAccountTerminated(true);
             userRepository.save(user);
 
         }
 
+    }
+
+    public boolean checkIfFriends(Long userId, Long friendId) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        UserDTO friend = this.findById(friendId);
+        if(user == null) {
+           throw new UserNotFoundException();
+        }
+        List<UserDTO> friends = user.getFriends().stream().map(UserDao::mapToDTO).collect(Collectors.toList());
+        return friends.contains(friend);
     }
 }

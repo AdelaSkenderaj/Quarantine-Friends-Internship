@@ -25,20 +25,6 @@ public class MatchRequestService {
     }
 
     public void addMatchRequest(MatchRequestDTO matchRequestDTO) {
-
-        /*MatchRequestDTO matchRequestDTO = new MatchRequestDTO();
-        UserDTO fromUser = userDao.findById(fromUserId);
-        if(fromUser == null) {
-            throw new UserNotFoundException();
-        }
-
-        UserDTO toUser = userDao.findById(toUserId);
-        if(toUser == null) {
-            throw new UserNotFoundException();
-        }
-
-        matchRequestDTO.setFromUser(fromUser);
-        matchRequestDTO.setToUser(toUser);*/
         matchRequestDao.save(matchRequestDTO);
     }
 

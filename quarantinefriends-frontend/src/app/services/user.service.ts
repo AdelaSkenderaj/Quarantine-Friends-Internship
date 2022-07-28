@@ -127,4 +127,12 @@ export class UserService implements OnInit {
   getBannedUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>(`http://localhost:8080/banned-users`);
   }
+
+  forgotPassword(email: string) {
+    return this.httpClient.put(`http://localhost:8080/forgot-password`, email);
+  }
+
+  checkIfFriends(userId:number, friendId:number){
+    return this.httpClient.get(`http://localhost:8080/areFriends/${userId}/${friendId}`);
+  }
 }

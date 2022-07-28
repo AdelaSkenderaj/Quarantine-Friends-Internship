@@ -2,18 +2,25 @@ mat-form-field {
   width: 100%;
 }
 .modal-container {
-  width: 500px;
-  height: 300px;
-  margin-left: 35%;
-  margin-top:7%;
   font-size:15px;
 }
 
 .title{
   font-size: 30px;
-  margin-left: 35%;
+  color: black;
 }
 
 .submit-button {
-  margin-left: 43%;
+  color:black;
 }
+
+
+
+.gradient-custom{
+  background-color: #243657;
+  margin-left: -9%;
+  margin-right: -9%;
+}
+
+
+

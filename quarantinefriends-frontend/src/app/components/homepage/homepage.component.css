@@ -1,6 +1,6 @@
 .img {
-  width: 20%;
-  margin: auto;
+  width: 100px;
+  margin-left: 130px;
 }
 
 .text {
@@ -28,3 +28,4 @@
   font-weight: bold;
   margin-top: 5%;
 }
+

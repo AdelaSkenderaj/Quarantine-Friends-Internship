@@ -28,7 +28,6 @@
             <div class="button">
                 <button
                 mat-icon-button
-                class="add-icon"
                 matTooltip="Send match request"
                 (click)="addMatchRequest(suggestion.user)">
                 <mat-icon>person_add</mat-icon>
@@ -41,6 +40,14 @@
                 (click)="blockUser(suggestion.user.id)" >
                 <mat-icon>block</mat-icon>
               </button>
+
+              <button
+                mat-icon-button
+                matTooltip="Report User"
+                (click)="reportUser(suggestion.user)">
+                <mat-icon>outlined_flag</mat-icon>
+                </button>
+
              </div>
           </div>
         </div>

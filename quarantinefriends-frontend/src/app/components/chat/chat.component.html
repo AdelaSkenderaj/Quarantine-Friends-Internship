@@ -31,15 +31,13 @@
 
           <button
             mat-icon-button
-            color="warn"
             matTooltip="Unmatch"
-            (click)="unMatch()" >
-            <mat-icon>block</mat-icon>
+            (click)="unMatch(chattingFriend.id)" >
+            <span class="material-icons">person_remove</span>
           </button>
 
             <button
                 mat-icon-button
-                color="warn"
                 matTooltip="Block user"
                 (click)="blockUser()" >
                 <mat-icon>block</mat-icon>
@@ -50,7 +48,7 @@
             aria-label="Example icon button with home button"
             matTooltip="Report user"
             (click)="reportUser()">
-            <mat-icon>report</mat-icon>
+            <mat-icon>outlined_flag</mat-icon>
           </button>
         </div>
         <div class="mesgs" >
@@ -74,3 +72,4 @@
       </div>
 
     </div></div>
+</div>

@@ -5,9 +5,7 @@ import com.quarantinefriends.configuration.JwtUtils;
 import com.quarantinefriends.dao.RoleDao;
 import com.quarantinefriends.dao.UserDao;
 import com.quarantinefriends.dto.*;
-import com.quarantinefriends.exception.EmailExistException;
-import com.quarantinefriends.exception.UserNotFoundException;
-import com.quarantinefriends.exception.UsernameExistException;
+import com.quarantinefriends.exception.*;
 import com.quarantinefriends.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,18 +36,16 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
     private JwtUtils jwtUtils;
-    private UserRepository userRepository;
 
 
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao, PasswordEncoder passwordEncoder,
-                       AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository) {
+                       AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        this.userRepository = userRepository;
     }
 
 
@@ -81,12 +77,15 @@ public class UserService {
     }
 
 
-    public ResponseEntity<LoginResponse> login(LoginDTO loginDTO) {
+    public ResponseEntity<LoginResponse> login(LoginDTO loginDTO) throws AccountHasBeenBannedException {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDTO user = userDao.findByUsername(loginDTO.getUsername());
+        if(user.isAccountTerminated()) {
+            throw new AccountHasBeenBannedException("This account has been banned");
+        }
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("jwtToken", jwt);
         LoginResponse loginResponse = new LoginResponse(user, jwt);
@@ -125,8 +124,12 @@ public class UserService {
         userDao.save(userDTO);
     }
 
-    public void forgetPassword(String email) throws UserNotFoundException {
+    public void forgotPassword(String email) throws EmailNotFoundException {
         UserDTO userDTO = userDao.findByEmail(email);
+        if(userDTO == null) {
+            throw new EmailNotFoundException("Email not found");
+        }
+
 
         //Generate new random password and send the user an email with this password
         String newPassword = RandomStringUtils.randomAlphanumeric(15);
@@ -204,7 +207,6 @@ public class UserService {
     }
 
     public void blockUser(UserDTO userDTO, Long blockUserId) throws UserNotFoundException {
-        //TODO:if the user was a friend remove from friends list
         userDao.blockUser(userDTO.getId(), blockUserId);
     }
 
@@ -226,8 +228,6 @@ public class UserService {
         userDao.save(user);
     }
 
-    //TODO:Move this part in match service and the endpoint in match controller
-
     public List<MatchDTO> getMatches(Long userId) throws UserNotFoundException {
         List<UserDTO> availableUsers = userDao.getAvailableUsersForMatch(userId);
         List<MatchDTO> matches = new ArrayList<>();
@@ -241,7 +241,6 @@ public class UserService {
             if(matchingPercentage > 0) {
                 match.setUser(user);
                 match.setMatchingPercentage((int) (matchingPercentage * 100));
-                System.out.println("matching percentage " + match.getMatchingPercentage());
                 matches.add(match);
             }
         }
@@ -255,13 +254,11 @@ public class UserService {
         for(HobbyDTO hobby : loggedInUser.getHobbies()) {
             if(matchedUserHobbies.contains(hobby)) {
                 hobbyMatch += 1;
-                System.out.println("inside if case ");
             }
         }
         if(!loggedInUser.getHobbies().isEmpty()) {
             hobbyMatch /= loggedInUser.getHobbies().size();
         }
-        System.out.println("Hobby match " + hobbyMatch);
 
         for(PreferenceDTO preference : loggedInUser.getPreferences()) {
             if(matchedUser.getPreferences().contains(preference)) {
@@ -271,10 +268,8 @@ public class UserService {
         if(!loggedInUser.getPreferences().isEmpty()) {
             preferenceMatch /= loggedInUser.getPreferences().size();
         }
-        System.out.println("preference match " + preferenceMatch);
 
         double ageMatch = 0.2 - (double)Math.min(10, Math.abs(loggedInUser.getAge() - matchedUser.getAge()))/10;
-        System.out.println("age match " + ageMatch);
 
         return ((hobbyMatch * 0.4) + (preferenceMatch * 0.4) + ageMatch);
     }
@@ -289,4 +284,7 @@ public class UserService {
     }
 
 
+    public boolean checkIfFriends(Long userId, Long friendId) throws UserNotFoundException {
+        return this.userDao.checkIfFriends(userId, friendId);
+    }
 }

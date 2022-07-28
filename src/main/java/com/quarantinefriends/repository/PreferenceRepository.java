@@ -12,6 +12,6 @@ import java.util.List;
 @Transactional
 public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
-    @Query(value="select count(preference_id) as number from user_preference group by preference_id", nativeQuery = true)
+    @Query(value="SELECT (SELECT COUNT(preference_id) FROM user_preference WHERE user_preference.preference_id = preference.id) AS TOT FROM preference", nativeQuery = true)
     List<Long> findPreferenceStatistics();
 }

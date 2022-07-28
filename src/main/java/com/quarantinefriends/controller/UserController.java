@@ -4,10 +4,7 @@ import com.quarantinefriends.dto.LoginDTO;
 import com.quarantinefriends.dto.LoginResponse;
 import com.quarantinefriends.dto.MatchDTO;
 import com.quarantinefriends.dto.UserDTO;
-import com.quarantinefriends.exception.EmailExistException;
-import com.quarantinefriends.exception.ExceptionHandling;
-import com.quarantinefriends.exception.UserNotFoundException;
-import com.quarantinefriends.exception.UsernameExistException;
+import com.quarantinefriends.exception.*;
 import com.quarantinefriends.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +32,7 @@ public class UserController extends ExceptionHandling {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO){
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO) throws AccountHasBeenBannedException {
         return this.userService.login(loginDTO);
     }
 
@@ -61,9 +58,9 @@ public class UserController extends ExceptionHandling {
         userService.resetPassword(userId, password);
     }
 
-    @PutMapping("/forget-password")
-    public void forgetPassword(@RequestBody String email) throws UserNotFoundException {
-        userService.forgetPassword(email);
+    @PutMapping("/forgot-password")
+    public void forgotPassword(@RequestBody String email) throws EmailNotFoundException {
+        userService.forgotPassword(email);
     }
 
     @PutMapping("/user/{userId}")
@@ -116,4 +113,9 @@ public class UserController extends ExceptionHandling {
         return userService.getBannedUsers();
     }
 
+
+    @GetMapping("/areFriends/{userId}/{friendId}")
+    public boolean checkIfFriends(@PathVariable Long userId, @PathVariable Long friendId) throws UserNotFoundException {
+        return this.userService.checkIfFriends(userId, friendId);
+    }
 }
