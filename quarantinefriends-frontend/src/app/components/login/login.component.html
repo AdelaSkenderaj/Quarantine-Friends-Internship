@@ -1,67 +1,15 @@
-<!-- <div class="container">
-  <img src="../../assets/images/wallhaven-o3ew8p.png" >
-    <div class="d-flex all-container justify-content-center">
-      <div class="d-flex image-container justify-content-center">
-      </div>
-      <div class="form-container-1">
-        <mat-form-field>
-          <input
-            appearance="fill"
-            type="text"
-            matInput
-            placeholder="Username"
-            [(ngModel)]="username"
-            #title
-          />
-          <mat-icon matSuffix>person_outline</mat-icon>
-        </mat-form-field>
-        <br />
-        <mat-form-field>
-          <input
-            [type]="hide ? 'password' : 'text'"
-            matInput
-            placeholder="Password"
-            [(ngModel)]="password"
-            #title
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
-          >
-            <mat-icon class="hide-icon">{{
-              hide ? "visibility_off" : "visibility"
-            }}</mat-icon>
-          </button>
-        </mat-form-field>
-        <button class="login-button" mat-stroked-button (click)="handleLogin()">
-          Login
-        </button>
-        <button class="login-button" mat-stroked-button routerLink="/signup">
-          SignUp
-        </button>
-        <a class="forgot-password" routerLink="/forgot-password">Forgot Password</a>
-      </div>
-    </div>
-  </div>
 
-
-   -->
-
-
-<!-- Section: Design Block -->
 <section class="background-radial-gradient overflow-hidden">
   <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
     <div class="row gx-lg-5 align-items-center mb-5">
       <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
-        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+        <h1 class="my-5 display-5 fw-bold ls-tight text" style="color: hsl(218, 81%, 95%)">
           QUAPP <br />
-          <span style="color: hsl(218, 81%, 75%)">Friendships brought close</span>
-        </h1>
-        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
           
+        </h1>
+
+        <p class="mb-4 opacity-70 text-2" style="color: hsl(218, 81%, 85%)">
+          <span style="color: hsl(218, 81%, 75%)">Friendships brought close</span>
         </p>
       </div>
 
@@ -71,8 +19,6 @@
 
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
-
-              <!-- 2 column grid layout with text inputs for the first and last names -->
 
                 <mat-form-field>
                   <input
@@ -85,9 +31,6 @@
                   />
                   <mat-icon matSuffix>person_outline</mat-icon>
                 </mat-form-field>
-
-
-              <!-- Password input -->
               <mat-form-field>
                 <input
                   [type]="hide ? 'password' : 'text'"
@@ -109,7 +52,6 @@
                 </button>
               </mat-form-field>
 
-              <!-- Checkbox -->
               <div class="form-check d-flex justify-content-center mb-4">
                 <button class="login-button" mat-stroked-button (click)="handleLogin()">
                   Login
@@ -122,13 +64,10 @@
               <div class="form-check d-flex justify-content-center mb-4">
                 <a class="forgot-password" routerLink="/forgot-password" style="text-decoration: none" >Forgot Password</a>
               </div>
-
-              <!-- Register buttons -->
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- Section: Design Block -->
   

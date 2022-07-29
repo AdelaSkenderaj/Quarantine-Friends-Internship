@@ -38,7 +38,6 @@ export class ChangePasswordComponent implements OnInit {
       .resetPassword(user.id, this.form.value.password)
       .subscribe((response) => {
         console.log('Password reseted');
-       // this.openSnackBar();
         this.dialogRef.close();
       });
   }
@@ -55,12 +54,6 @@ export class ChangePasswordComponent implements OnInit {
     }
     return true;
   }
-
-  // openSnackBar() {
-  //   this._snackBar.openFromComponent(PasswordChanged, {
-  //     duration: 3000,
-  //   });
-  // }
 }
 
 export function openEditPasswordDialog(dialog: MatDialog, user: User) {
