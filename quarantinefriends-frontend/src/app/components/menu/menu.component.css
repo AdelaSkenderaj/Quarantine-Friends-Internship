@@ -1,0 +1,37 @@
+img {
+    height: 50px;
+    margin-right: 40px;
+    margin-left: 20px;
+  }
+  .navbar-brand {
+    color: #3E085E;
+    font-weight: bolder;
+    font-size: 25px;
+  
+    margin-left: 60px;
+  }
+  .mat-button:hover {
+    color: white;
+    background-color: #8011C0;
+  }
+  button:hover {
+    background-color: #8011C0;
+  }
+  .mat-menu-item:hover {
+    color: #8011C0;
+  }
+  mat-toolbar {
+    width: 100%;
+    background-color: #3E085E;
+    color: white;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .menu-img {
+    width: 50px;
+  }
+  mat-sidenav-container {
+    margin-bottom: 0px;
+  }
+  

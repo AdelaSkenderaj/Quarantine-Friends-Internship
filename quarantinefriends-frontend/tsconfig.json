@@ -5,28 +5,35 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
+    "noImplicitAny": false,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "strictNullChecks": false,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
     "lib": [
       "es2020",
-      "dom"
+      "dom",
+      "dom.Iterable",
+      "ES5",
+      "ES6",
     ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   }
 }

@@ -1,0 +1,33 @@
+
+<div class="container">
+    <div class="messaging">
+          <div class="inbox_msg">
+            <div class="inbox_people">
+              <div class="headind_srch">
+                <div class="recent_heading">
+                  <h4>Friends</h4>
+                </div>
+                <div class="srch_bar">
+                  <div class="stylish-input-group">
+                    <span class="input-group-addon">
+                    <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                    </span> </div>
+                </div>
+              </div>
+              <div class="inbox_chat">
+                
+                <div class="chat_list" *ngFor="let friend of friends">
+                  <a mat-button class="chat_people" routerLink="/chat/{{friend.id}}">
+                    <div class="chat_img"> <img src="{{friend.photo}}" alt=""> </div>
+                    <div class="chat_ib">
+                      <h5>{{friend.firstName}} {{friend.lastName}} </h5>
+                    </div>
+                </a>
+                </div>
+              </div>
+            </div>
+            <div class="mesgs" >
+            </div>
+          </div>
+                
+        </div></div>

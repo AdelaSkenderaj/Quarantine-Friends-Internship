@@ -1,0 +1,55 @@
+
+      <div class="container">
+        <div class="row">
+          <div
+            class="col-md-4 mt-5"
+            *ngFor="let suggestion of matchSuggestions"
+            data-clickable="true"
+          >
+            <a mat-button class="d-flex justify-content-between" routerLink="/profile/{{suggestion.user.id}}">
+                <img class="img" src="{{ suggestion.user.photo }}" alt="" /> 
+            </a>
+
+            <div class=" text d-flex justify-content-between" >
+                {{suggestion.user.firstName}} {{suggestion.user.lastName}}  {{suggestion.user.age}}
+            </div>
+            <div>
+              <div class="title"> Hobbies </div>
+                <span *ngFor="let hobby of suggestion.user.hobbies">
+                  {{ hobby.name}}         
+                </span>
+              <div class="title"> Preferences </div>
+                <span  *ngFor="let preference of suggestion.user.preferences">
+                  {{ preference.name }}
+                </span>
+            </div>
+            <div class="matching-percentage"> {{suggestion.matchingPercentage}}%  Match </div>
+                 
+            <div class="button">
+                <button
+                mat-icon-button
+                matTooltip="Send match request"
+                (click)="addMatchRequest(suggestion.user)">
+                <mat-icon>person_add</mat-icon>
+                </button>
+    
+                <button
+                mat-icon-button
+                color="warn"
+                matTooltip="Block user"
+                (click)="blockUser(suggestion.user.id)" >
+                <mat-icon>block</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                matTooltip="Report User"
+                (click)="reportUser(suggestion.user)">
+                <mat-icon>outlined_flag</mat-icon>
+                </button>
+
+             </div>
+          </div>
+        </div>
+      </div>
+  

@@ -1,0 +1,79 @@
+<mat-sidenav-container fullscreen>
+  <mat-toolbar *ngIf="userLoggedIn">
+
+    <a mat-button class="mat-button" > Quapp </a>
+    <a mat-button *ngIf="userLoggedIn" routerLink="/home" class="mat-button"
+      ><mat-icon>home</mat-icon>
+    </a>
+
+    <a
+      mat-button
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/match-requests"
+      class="mat-button"
+      ><mat-icon>person_outline</mat-icon>Match Requests
+    </a>
+
+    <a
+      mat-button
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/blocked-users"
+      class="mat-button"
+      ><mat-icon>person_outline</mat-icon>Blocked Users
+    </a>
+
+    <a
+      mat-button
+      routerLink="/users"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_ADMIN'"
+      class="mat-button"
+    >
+      <mat-icon>supervisor_account</mat-icon>Users
+    </a>
+    <a
+      mat-button
+      routerLink="/reports"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_ADMIN'"
+      class="mat-button"
+    >
+      <i class="fa fa-users" aria-hidden="true"></i>
+      <mat-icon>supervisor_account</mat-icon>
+      Reports
+    </a>
+
+    <a
+      mat-button
+      routerLink="/banned-users"
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_ADMIN'"
+      class="mat-button"
+    >
+      <i class="fa fa-users" aria-hidden="true"></i>
+      <mat-icon>supervisor_account</mat-icon>
+      Banned Users
+    </a>
+
+    <span class="example-spacer"></span>
+    <a
+      mat-button
+      *ngIf="userLoggedIn && userLoggedIn?.role?.name === 'ROLE_USER'"
+      routerLink="/friends"
+      class="mat-button"
+      ><mat-icon>chat</mat-icon>
+    </a>
+
+    <a
+      mat-button
+      class="mat-button"
+      *ngIf="userLoggedIn"
+      (click)="logout()"
+      routerLink="/"
+      ><mat-icon>exit_to_app</mat-icon>Logout
+    </a>
+    <a *ngIf="userLoggedIn" routerLink="/profile/{{userLoggedIn.id}}"
+      > <img src="{{userLoggedIn.photo}}" class="rounded-circle menu-img" />
+    </a> {{userLoggedIn.firstName}}
+  </mat-toolbar>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>

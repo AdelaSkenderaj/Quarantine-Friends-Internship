@@ -1,0 +1,31 @@
+.img {
+  width: 100px;
+  margin-left: 130px;
+}
+
+.text {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+
+.title {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.button {
+  margin-top:5%;
+  margin-left: 39%;
+}
+
+.matching-percentage{
+  text-align: right;
+  margin-right: 20%;
+  font-weight: bold;
+  margin-top: 5%;
+}
+
