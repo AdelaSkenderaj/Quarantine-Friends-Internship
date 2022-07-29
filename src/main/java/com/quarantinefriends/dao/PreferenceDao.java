@@ -46,6 +46,7 @@ public class PreferenceDao {
     }
 
     public void deletePreference(Long preferenceId) {
+        this.preferenceRepository.deleteFromUsers(preferenceId);
         this.preferenceRepository.deleteById(preferenceId);
     }
 }

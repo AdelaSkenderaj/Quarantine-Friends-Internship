@@ -46,6 +46,7 @@ public class HobbyDao {
     }
 
     public void deleteHobby(Long hobbyId) {
+        this.hobbyRepository.deleteFromUsers(hobbyId);
         this.hobbyRepository.deleteById(hobbyId);
     }
 }

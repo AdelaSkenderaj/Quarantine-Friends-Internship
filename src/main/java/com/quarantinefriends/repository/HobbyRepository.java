@@ -2,6 +2,7 @@ package com.quarantinefriends.repository;
 
 import com.quarantinefriends.entity.Hobby;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,9 @@ import java.util.List;
 public interface HobbyRepository extends JpaRepository<Hobby, Long> {
     @Query(value="SELECT (SELECT COUNT(hobby_id) FROM user_hobby WHERE user_hobby.hobby_id = hobby.id) AS TOT FROM hobby", nativeQuery = true)
     List<Long> findHobbyStatistics();
+
+
+    @Modifying
+    @Query(value="delete from user_hobby where hobby_id=:hobbyId",nativeQuery = true)
+    void deleteFromUsers(Long hobbyId);
 }
