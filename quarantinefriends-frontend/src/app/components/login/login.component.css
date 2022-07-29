@@ -66,4 +66,13 @@ mat-icon {
   margin-top: 25.7%;
 }
 
+.text{
+  font-size: 80px;
+  font-family:'Courier New', Courier, monospace;
+}
+
+.text-2{
+  font-size: 30px;
+  font-family:'Gill Sans MT', sans-serif;
+}
 

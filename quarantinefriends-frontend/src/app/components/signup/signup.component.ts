@@ -117,7 +117,4 @@ export class SignupComponent implements OnInit {
 
   }
 
-  resetPassword() {
-  //  openEditPasswordDialog(this.dialog, this.user).subscribe();
-  }
 }
