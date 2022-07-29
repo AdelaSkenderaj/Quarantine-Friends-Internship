@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class PreferenceDao {
 
-    private PreferenceRepository preferenceRepository;
+    private final PreferenceRepository preferenceRepository;
 
     @Autowired
     public PreferenceDao(PreferenceRepository preferenceRepository) {
@@ -39,5 +39,13 @@ public class PreferenceDao {
 
     public List<PreferenceDTO> findAll() {
         return preferenceRepository.findAll().stream().map(PreferenceDao::mapToDTO).collect(Collectors.toList());
+    }
+
+    public void addPreference(PreferenceDTO preferenceDTO) {
+        this.preferenceRepository.save(mapToEntity(preferenceDTO));
+    }
+
+    public void deletePreference(Long preferenceId) {
+        this.preferenceRepository.deleteById(preferenceId);
     }
 }

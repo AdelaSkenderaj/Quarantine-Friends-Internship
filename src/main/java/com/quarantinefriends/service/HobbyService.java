@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class HobbyService {
 
-    private HobbyDao hobbyDao;
+    private final HobbyDao hobbyDao;
 
     @Autowired
     public HobbyService(HobbyDao hobbyDao) {
@@ -18,5 +18,13 @@ public class HobbyService {
     }
     public List<HobbyDTO> getHobbies() {
         return hobbyDao.findAll();
+    }
+
+    public void addHobby(HobbyDTO hobbyDTO) {
+        this.hobbyDao.addHobby(hobbyDTO);
+    }
+
+    public void deleteHobby(Long hobbyId) {
+        this.hobbyDao.deleteHobby(hobbyId);
     }
 }

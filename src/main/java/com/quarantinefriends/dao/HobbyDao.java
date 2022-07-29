@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class HobbyDao {
 
-    private HobbyRepository hobbyRepository;
+    private final HobbyRepository hobbyRepository;
 
     @Autowired
     public HobbyDao(HobbyRepository hobbyRepository){
@@ -39,5 +39,13 @@ public class HobbyDao {
 
     public List<HobbyDTO> findAll() {
         return this.hobbyRepository.findAll().stream().map(HobbyDao::mapToDTO).collect(Collectors.toList());
+    }
+
+    public void addHobby(HobbyDTO hobbyDTO) {
+        this.hobbyRepository.save(mapToEntity(hobbyDTO));
+    }
+
+    public void deleteHobby(Long hobbyId) {
+        this.hobbyRepository.deleteById(hobbyId);
     }
 }
