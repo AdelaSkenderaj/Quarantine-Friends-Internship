@@ -11,7 +11,7 @@ import java.util.List;
 public class PreferenceService {
 
 
-    private PreferenceDao preferenceDao;
+    private final PreferenceDao preferenceDao;
 
     @Autowired
     public PreferenceService(PreferenceDao preferenceDao) {
@@ -19,5 +19,13 @@ public class PreferenceService {
     }
     public List<PreferenceDTO> getPreferences() {
         return preferenceDao.findAll();
+    }
+
+    public void addPreference(PreferenceDTO preferenceDTO) {
+        this.preferenceDao.addPreference(preferenceDTO);
+    }
+
+    public void deletePreference(Long preferenceId) {
+        this.preferenceDao.deletePreference(preferenceId);
     }
 }
