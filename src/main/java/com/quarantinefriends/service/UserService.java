@@ -11,8 +11,11 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,15 +40,21 @@ public class UserService {
 
     private JwtUtils jwtUtils;
 
+    private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String email;
+
 
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao, PasswordEncoder passwordEncoder,
-                       AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+                       AuthenticationManager authenticationManager, JwtUtils jwtUtils, JavaMailSender javaMailSender) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.javaMailSender = javaMailSender;
     }
 
 
@@ -133,6 +142,7 @@ public class UserService {
 
         //Generate new random password and send the user an email with this password
         String newPassword = RandomStringUtils.randomAlphanumeric(15);
+        sendEmail(userDTO,newPassword);
         String encodedPassword = encodePassword(newPassword);
         System.out.println("New password is " + newPassword);
         userDTO.setPassword(encodedPassword);
@@ -140,6 +150,20 @@ public class UserService {
         //TODO:Send new password in email
 
         userDao.save(userDTO);
+    }
+
+
+    public void sendEmail(UserDTO user, String password){
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+        mail.setFrom(email);
+        mail.setSubject("A new password was set for your account");
+        mail.setText("Hi " + user.getFirstName() + " " + user.getLastName()  +
+                "!\n\nYou can use this password to access your account.\n\n" +
+                "You are advised to change your password after signin in.\n" +
+                "password: " + password);
+
+        javaMailSender.send(mail);
     }
 
     public ResponseEntity<LoginResponse> updateUser(Long userId, UserDTO newUser) throws UserNotFoundException, EmailExistException, UsernameExistException {
