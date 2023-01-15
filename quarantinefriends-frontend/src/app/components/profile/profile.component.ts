@@ -25,18 +25,18 @@ export class ProfileComponent implements OnInit {
       this.loggedInUser = response;
       this.loadUserDetails();
     })
-    
+
   }
 
   loadUserDetails() {
     this.activatedRoute.paramMap.subscribe((paramMap) => {
-      this.id =+ paramMap.get('id');
+      this.id = +paramMap.get('id');
       this.userService.getUserById(this.id).subscribe((response) => {
         this.user = response;
       })
     })
   }
 
-  
+
 
 }

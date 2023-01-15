@@ -1,13 +1,10 @@
 import { User, Hobby, Preference } from '../../model/model';
-import { UserService } from './../../services/user.service';
-import { Component,Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
-  FormGroup,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HobbyService } from 'src/app/services/hobby.service';
 import { PreferenceService } from 'src/app/services/preference.service';
@@ -17,20 +14,13 @@ import { PreferenceService } from 'src/app/services/preference.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  userFirstName:string;
-  userLastName:string;
-  usersername:string;
-  userAge:number;
-  userEmail:string;
-  userPassword:string;
+
   userHobbies: Hobby[] = [];
   userPreferences: Preference[] = [];
   hide = true;
 
   allHobbies:Hobby[] = [];
   allPreferences: Preference[] = [];
-
-  dropdownList=[];
 
   form = this.formBuilder.group({
     firstname:['', [Validators.required]],
@@ -90,6 +80,7 @@ export class SignupComponent implements OnInit {
     let hobbyId = this.form.controls['hobbies'].value;
 
     for(let h of this.allHobbies) {
+      // @ts-ignore
       for(let id of hobbyId) {
         if(h.id == id) {
           this.userHobbies.push(h);
@@ -100,6 +91,7 @@ export class SignupComponent implements OnInit {
     let preferenceId = this.form.controls['preferences'].value;
 
     for(let p of this.allPreferences) {
+      // @ts-ignore
       for(let id of preferenceId) {
         if(p.id == id) {
           this.userPreferences.push(p);
